@@ -107,7 +107,8 @@ export default withAuth(
     session,
      server: {
        cors: {
-         origin: ['http://localhost:3001','https://thecapetownlocal-fe.herokuapp.com'],
+         origin: ['http://localhost:3001','https://thecapetownlocal-fe.herokuapp.com',
+         "https://thecapetownlocalfe-production.up.railway.app"],
          credentials: true
         },
        extendExpressApp: (app, createContext) => {
