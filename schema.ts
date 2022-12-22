@@ -227,7 +227,6 @@ export const lists: Lists = {
       title: text({
         validation: { isRequired: true }
       }),
-      featureImage: image({ storage: 'local_images' }),
       activityItemHeading: relationship({ ref: 'ActivityItemHeading', many: true }),
       tag: relationship({ ref: 'Tag.activity', many: false }),
       faq: relationship({ ref: 'Faq', many: true })

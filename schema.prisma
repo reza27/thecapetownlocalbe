@@ -23,17 +23,12 @@ model User {
 }
 
 model Activity {
-  id                     String                @id @default(cuid())
-  title                  String                @default("")
-  featureImage_filesize  Int?
-  featureImage_extension String?
-  featureImage_width     Int?
-  featureImage_height    Int?
-  featureImage_id        String?
-  activityItemHeading    ActivityItemHeading[] @relation("Activity_activityItemHeading")
-  tag                    Tag?                  @relation("Activity_tag", fields: [tagId], references: [id])
-  tagId                  String?               @unique @map("tag")
-  faq                    Faq[]                 @relation("Activity_faq")
+  id                  String                @id @default(cuid())
+  title               String                @default("")
+  activityItemHeading ActivityItemHeading[] @relation("Activity_activityItemHeading")
+  tag                 Tag?                  @relation("Activity_tag", fields: [tagId], references: [id])
+  tagId               String?               @unique @map("tag")
+  faq                 Faq[]                 @relation("Activity_faq")
 }
 
 model ActivityItemHeading {
