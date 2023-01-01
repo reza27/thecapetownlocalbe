@@ -26,8 +26,6 @@ model Activity {
   id                  String                @id @default(cuid())
   title               String                @default("")
   activityItemHeading ActivityItemHeading[] @relation("Activity_activityItemHeading")
-  tag                 Tag?                  @relation("Activity_tag", fields: [tagId], references: [id])
-  tagId               String?               @unique @map("tag")
   faq                 Faq[]                 @relation("Activity_faq")
 }
 
@@ -42,10 +40,13 @@ model ActivityItem {
   id                                     String                @id @default(cuid())
   title                                  String                @default("")
   content                                String                @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  tab                                    String                @default("")
+  anchor                                 String                @default("")
   images                                 Image[]               @relation("ActivityItem_images")
   price                                  String                @default("")
   duration                               String                @default("")
   from_ActivityItemHeading_activityItems ActivityItemHeading[] @relation("ActivityItemHeading_activityItems")
+  from_HomeTour_homeTour                 HomeTour[]            @relation("HomeTour_homeTour")
 }
 
 model Image {
@@ -62,28 +63,18 @@ model Image {
 }
 
 model Home {
-  id                     Int        @id
-  title                  String     @default("")
-  featureImage_filesize  Int?
-  featureImage_extension String?
-  featureImage_width     Int?
-  featureImage_height    Int?
-  featureImage_id        String?
-  homeTours              HomeTour[] @relation("Home_homeTours")
+  id        Int        @id
+  homeTours HomeTour[] @relation("Home_homeTours")
 }
 
 model HomeTour {
-  id                  String  @id @default(cuid())
-  image_filesize      Int?
-  image_extension     String?
-  image_width         Int?
-  image_height        Int?
-  image_id            String?
-  duration            String  @default("")
-  price               String  @default("")
-  title               String  @default("")
-  content             String  @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  from_Home_homeTours Home[]  @relation("Home_homeTours")
+  id                  String        @id @default(cuid())
+  name                String        @default("")
+  homeTour            ActivityItem? @relation("HomeTour_homeTour", fields: [homeTourId], references: [id])
+  homeTourId          String?       @map("homeTour")
+  from_Home_homeTours Home[]        @relation("Home_homeTours")
+
+  @@index([homeTourId])
 }
 
 model About {
@@ -118,10 +109,4 @@ model Faq {
   question          String     @default("")
   answer            String     @default("")
   from_Activity_faq Activity[] @relation("Activity_faq")
-}
-
-model Tag {
-  id       String    @id @default(cuid())
-  name     String    @default("")
-  activity Activity? @relation("Activity_tag")
 }

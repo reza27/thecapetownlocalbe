@@ -228,7 +228,7 @@ export const lists: Lists = {
         validation: { isRequired: true }
       }),
       activityItemHeading: relationship({ ref: 'ActivityItemHeading', many: true }),
-      tag: relationship({ ref: 'Tag.activity', many: false }),
+      //tag: relationship({ ref: 'Tag.activity', many: false }),
       faq: relationship({ ref: 'Faq', many: true })
     }
   }),
@@ -261,6 +261,13 @@ export const lists: Lists = {
         links: true,
         dividers: true,
       }),
+      tab: text({
+        validation: { isRequired: true }
+      }),
+      anchor: text({
+        validation: { isRequired: true }
+      }),
+
       images: relationship({ ref: 'Image', many: true,  ui: {
              displayMode:'cards',
              cardFields: ['image', 'name', 'altText'],
@@ -275,7 +282,6 @@ export const lists: Lists = {
          duration: text({
            validation: { isRequired: true }
          })
-
     }
   }),
   Image: list({
@@ -296,57 +302,36 @@ export const lists: Lists = {
 
     ui: {
       label: 'Home',
-      path: 'home'
+      path: 'home',
+
+
     },
     isSingleton: true,
-    fields: {
-      title: text({
-        validation: {
-        isRequired: true,
-        },
-      }),
-      featureImage: image({ storage: 'local_images' }),
-      homeTours: relationship({ ref: 'HomeTour', many: true })
+
+      fields: {
+
+      homeTours: relationship({ ref: 'HomeTour', many: true, ui:{
+          hideCreate: true,
+          labelField: 'title'
+      }})
 
     }
   }),
+
   HomeTour:list({
     access: allowAll,
-
-    ui: {
-      label: 'HomeTour',
-      path: 'hometour'
-    },
+      ui: {
+         description: 'Add a name for the Home page items'
+      },
+    
       fields: {
-        image: image({ storage: 'local_images' }),
-        duration: text({
-          validation: {
-          isRequired: true,
-          },
-        }),
-        price: text({
-          validation: {
-          isRequired: true,
-          },
-        }),
-        title: text({
-          validation: {
-          isRequired: true,
-          },
-        }),
-        content: document({
-          formatting: true,
-          layouts: [
-            [1, 1],
-            [1, 1, 1],
-            [2, 1],
-            [1, 2],
-            [1, 2, 1],
-          ],
-          links: true,
-          dividers: true,
-        })
-      }
+        name:text(),
+        homeTour: relationship({ ref: 'ActivityItem', many: false,ui:{
+            hideCreate: true,
+
+        }})
+      },
+
   }),
 
   About: list({
@@ -507,15 +492,15 @@ export const lists: Lists = {
   //   },
   // }),
   // Our final list is the tag list. This field is just a name and a relationship to posts
-  Tag: list({
-    access: allowAll,
-
-    ui: {
-      isHidden: true,
-    },
-    fields: {
-      name: text(),
-      activity: relationship({ ref: 'Activity.tag', many: false })
-    }
-  }),
+  // Tag: list({
+  //   access: allowAll,
+  //
+  //   ui: {
+  //     isHidden: true,
+  //   },
+  //   fields: {
+  //     name: text(),
+  //     activity: relationship({ ref: 'Activity.title', many: false })
+  //   }
+  // }),
 };
