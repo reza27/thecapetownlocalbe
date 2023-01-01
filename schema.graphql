@@ -414,6 +414,116 @@ input ImageCreateInput {
   image: ImageFieldInput
 }
 
+type ServiceItem {
+  id: ID!
+  title: String
+  content: ServiceItem_content_Document
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
+  imagesCount(where: ImageWhereInput! = {}): Int
+  price: String
+}
+
+type ServiceItem_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input ServiceItemWhereUniqueInput {
+  id: ID
+}
+
+input ServiceItemWhereInput {
+  AND: [ServiceItemWhereInput!]
+  OR: [ServiceItemWhereInput!]
+  NOT: [ServiceItemWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  images: ImageManyRelationFilter
+  price: StringFilter
+}
+
+input ServiceItemOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  price: OrderDirection
+}
+
+input ServiceItemUpdateInput {
+  title: String
+  content: JSON
+  images: ImageRelateToManyForUpdateInput
+  price: String
+}
+
+input ServiceItemUpdateArgs {
+  where: ServiceItemWhereUniqueInput!
+  data: ServiceItemUpdateInput!
+}
+
+input ServiceItemCreateInput {
+  title: String
+  content: JSON
+  images: ImageRelateToManyForCreateInput
+  price: String
+}
+
+type Service {
+  id: ID!
+  title: String
+  serviceItems(where: ServiceItemWhereInput! = {}, orderBy: [ServiceItemOrderByInput!]! = [], take: Int, skip: Int! = 0): [ServiceItem!]
+  serviceItemsCount(where: ServiceItemWhereInput! = {}): Int
+}
+
+input ServiceWhereUniqueInput {
+  id: ID
+}
+
+input ServiceWhereInput {
+  AND: [ServiceWhereInput!]
+  OR: [ServiceWhereInput!]
+  NOT: [ServiceWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  serviceItems: ServiceItemManyRelationFilter
+}
+
+input ServiceItemManyRelationFilter {
+  every: ServiceItemWhereInput
+  some: ServiceItemWhereInput
+  none: ServiceItemWhereInput
+}
+
+input ServiceOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+}
+
+input ServiceUpdateInput {
+  title: String
+  serviceItems: ServiceItemRelateToManyForUpdateInput
+}
+
+input ServiceItemRelateToManyForUpdateInput {
+  disconnect: [ServiceItemWhereUniqueInput!]
+  set: [ServiceItemWhereUniqueInput!]
+  create: [ServiceItemCreateInput!]
+  connect: [ServiceItemWhereUniqueInput!]
+}
+
+input ServiceUpdateArgs {
+  where: ServiceWhereUniqueInput! = {id: 1}
+  data: ServiceUpdateInput!
+}
+
+input ServiceCreateInput {
+  title: String
+  serviceItems: ServiceItemRelateToManyForCreateInput
+}
+
+input ServiceItemRelateToManyForCreateInput {
+  create: [ServiceItemCreateInput!]
+  connect: [ServiceItemWhereUniqueInput!]
+}
+
 type Home {
   id: ID!
   homeTours(where: HomeTourWhereInput! = {}, orderBy: [HomeTourOrderByInput!]! = [], take: Int, skip: Int! = 0): [HomeTour!]
@@ -719,6 +829,18 @@ type Mutation {
   updateImages(data: [ImageUpdateArgs!]!): [Image]
   deleteImage(where: ImageWhereUniqueInput!): Image
   deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
+  createServiceItem(data: ServiceItemCreateInput!): ServiceItem
+  createServiceItems(data: [ServiceItemCreateInput!]!): [ServiceItem]
+  updateServiceItem(where: ServiceItemWhereUniqueInput!, data: ServiceItemUpdateInput!): ServiceItem
+  updateServiceItems(data: [ServiceItemUpdateArgs!]!): [ServiceItem]
+  deleteServiceItem(where: ServiceItemWhereUniqueInput!): ServiceItem
+  deleteServiceItems(where: [ServiceItemWhereUniqueInput!]!): [ServiceItem]
+  createService(data: ServiceCreateInput!): Service
+  createServices(data: [ServiceCreateInput!]!): [Service]
+  updateService(where: ServiceWhereUniqueInput! = {id: 1}, data: ServiceUpdateInput!): Service
+  updateServices(data: [ServiceUpdateArgs!]!): [Service]
+  deleteService(where: ServiceWhereUniqueInput! = {id: 1}): Service
+  deleteServices(where: [ServiceWhereUniqueInput!]!): [Service]
   createHome(data: HomeCreateInput!): Home
   createHomes(data: [HomeCreateInput!]!): [Home]
   updateHome(where: HomeWhereUniqueInput! = {id: 1}, data: HomeUpdateInput!): Home
@@ -800,6 +922,12 @@ type Query {
   images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
   image(where: ImageWhereUniqueInput!): Image
   imagesCount(where: ImageWhereInput! = {}): Int
+  serviceItems(where: ServiceItemWhereInput! = {}, orderBy: [ServiceItemOrderByInput!]! = [], take: Int, skip: Int! = 0): [ServiceItem!]
+  serviceItem(where: ServiceItemWhereUniqueInput!): ServiceItem
+  serviceItemsCount(where: ServiceItemWhereInput! = {}): Int
+  services(where: ServiceWhereInput! = {id: {equals: 1}}, orderBy: [ServiceOrderByInput!]! = [], take: Int, skip: Int! = 0): [Service!]
+  service(where: ServiceWhereUniqueInput! = {id: 1}): Service
+  servicesCount(where: ServiceWhereInput! = {id: {equals: 1}}): Int
   homes(where: HomeWhereInput! = {id: {equals: 1}}, orderBy: [HomeOrderByInput!]! = [], take: Int, skip: Int! = 0): [Home!]
   home(where: HomeWhereUniqueInput! = {id: 1}): Home
   homesCount(where: HomeWhereInput! = {id: {equals: 1}}): Int

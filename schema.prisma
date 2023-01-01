@@ -59,7 +59,23 @@ model Image {
   image_height             Int?
   image_id                 String?
   from_ActivityItem_images ActivityItem[] @relation("ActivityItem_images")
+  from_ServiceItem_images  ServiceItem[]  @relation("ServiceItem_images")
   from_About_affiliations  About[]        @relation("About_affiliations")
+}
+
+model ServiceItem {
+  id                        String    @id @default(cuid())
+  title                     String    @default("")
+  content                   String    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  images                    Image[]   @relation("ServiceItem_images")
+  price                     String    @default("")
+  from_Service_serviceItems Service[] @relation("Service_serviceItems")
+}
+
+model Service {
+  id           Int           @id
+  title        String        @default("")
+  serviceItems ServiceItem[] @relation("Service_serviceItems")
 }
 
 model Home {

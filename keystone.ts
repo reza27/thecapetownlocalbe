@@ -148,7 +148,7 @@ export default withAuth(
         type: 'image',
         // The URL that is returned in the Keystone GraphQL API
         //generateUrl: path => process.env.NODE_ENV==='production'?`/images${path}`:`${process.env.ASSET_BASE_URL}/images${path}`,
-        generateUrl: path => `${process.env.PROD_URL}/images${path}`,
+        generateUrl: path => `${process.env.NODE_ENV==='production'? process.env.PROD_URL:process.env.ASSET_BASE_URL}/images${path}`,
         // The route that will be created in Keystone's backend to serve the images
         serverRoute: {
           path: '/images',

@@ -297,14 +297,62 @@ export const lists: Lists = {
       image: image({ storage: 'local_images' })
     }
   }),
+  ServiceItem: list({
+    access: allowAll,
+
+    fields: {
+      title: text({
+        validation: { isRequired: true }
+      }),
+      content: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
+      }),
+
+      images: relationship({ ref: 'Image', many: true,  ui: {
+             displayMode:'cards',
+             cardFields: ['image', 'name', 'altText'],
+             inlineEdit: { fields: ['image', 'name', 'altText'] },
+             linkToItem: true,
+             inlineConnect: true,
+             inlineCreate: { fields: ['image', 'name', 'altText'] },
+           }}),
+         price: text({
+           validation: { isRequired: true }
+         })
+    }
+  }),
+  Service: list({
+    access: allowAll,
+
+    ui: {
+      label: 'Services',
+      path: 'services',
+    },
+    isSingleton: true,
+
+    fields: {
+      title: text({
+        validation: { isRequired: true }
+      }),
+      serviceItems:relationship({ ref: 'ServiceItem', many: true})
+
+    }
+  }),
   Home: list({
     access: allowAll,
 
     ui: {
       label: 'Home',
       path: 'home',
-
-
     },
     isSingleton: true,
 
@@ -323,7 +371,7 @@ export const lists: Lists = {
       ui: {
          description: 'Add a name for the Home page items'
       },
-    
+
       fields: {
         name:text(),
         homeTour: relationship({ ref: 'ActivityItem', many: false,ui:{
