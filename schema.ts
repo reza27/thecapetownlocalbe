@@ -359,8 +359,7 @@ export const lists: Lists = {
       fields: {
 
       homeTours: relationship({ ref: 'HomeTour', many: true, ui:{
-          hideCreate: true,
-          labelField: 'title'
+          hideCreate: true
       }})
 
     }

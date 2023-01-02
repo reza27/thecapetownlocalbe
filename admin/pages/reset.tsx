@@ -11,7 +11,7 @@ import { useMutation, gql } from '@keystone-6/core/admin-ui/apollo';
 import { useRawKeystone, useReinitContext } from '@keystone-6/core/admin-ui/context';
 import { useRouter } from '@keystone-6/core/admin-ui/router';
 import { LoadingDots } from '@keystone-ui/loading';
-import { useRedirect } from '@keystone-6/auth/src/lib/useFromRedirect';
+import { useRedirect } from '../../lib/redirect';
 import { FormContainer } from '../../lib/FormContainer';
 
 

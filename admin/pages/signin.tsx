@@ -14,7 +14,9 @@ import { useRawKeystone, useReinitContext } from '@keystone-6/core/admin-ui/cont
 import { useRouter } from '@keystone-6/core/admin-ui/router';
 import { LoadingDots } from '@keystone-ui/loading';
 //import { SigninContainer } from '@keystone-6/auth/src/components/SigninContainer';
-import { useRedirect } from '@keystone-6/auth/src/lib/useFromRedirect';
+//import { useRedirect } from '@keystone-6/auth/src/lib/useFromRedirect';
+import {useRedirect} from '../../lib/redirect';
+
 
 type SigninPageProps = {
   identityField: string;

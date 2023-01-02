@@ -97,11 +97,11 @@ export default withAuth(
     //    },
     //  },
     // This config allows us to set up features of the Admin UI https://keystonejs.com/docs/apis/config#ui
-    // ui: {
-    //   // For our starter, we check that someone has session data before letting them see the Admin UI.
-    //   isAccessAllowed: (context) => !!context.session?.data,
-    //   publicPages:['reset-password']
-    // },
+    ui: {
+      // For our starter, we check that someone has session data before letting them see the Admin UI.
+      isAccessAllowed: (context) => !!context.session?.data,
+      publicPages:['/reset']
+    },
 
     lists,
     session,
@@ -148,7 +148,7 @@ export default withAuth(
         type: 'image',
         // The URL that is returned in the Keystone GraphQL API
         //generateUrl: path => process.env.NODE_ENV==='production'?`/images${path}`:`${process.env.ASSET_BASE_URL}/images${path}`,
-        generateUrl: path => `${process.env.PROD_URL}/images${path}`,
+        generateUrl: path => `${process.env.NODE_ENV==='production'? process.env.PROD_URL:process.env.ASSET_BASE_URL}/images${path}`,
         // The route that will be created in Keystone's backend to serve the images
         serverRoute: {
           path: '/images',
@@ -158,23 +158,22 @@ export default withAuth(
         storagePath: 'public/images',
       },
       /** more storage */
-    },
-    ui: {
-      isAccessAllowed: ({ req, session }) => {
-        // don't check access for public pages
-        console.log('url', (req as any)?.originalUrl)
-        //if(publicPageRoutes.some(x => x.includes((req as any)?.originalUrl))) {
-        if (publicPageRoutes.includes((req as any)?.originalUrl)) {
-          return true;
-        }
-
-        // allow all logged in users
-        return !!session?.data;
-
-        // only allow admins
-        // return !!session?.data?.isAdmin;
-      }
     }
+    // ui: {
+    //   isAccessAllowed: ({ req, session }) => {
+    //     // don't check access for public pages
+    //     console.log('url', (req as any)?.originalUrl)
+    //     //if(publicPageRoutes.some(x => x.includes((req as any)?.originalUrl))) {
+    //     if (publicPageRoutes.includes((req as any)?.originalUrl)) {
+    //       return true;
+    //     }
+    //
+    //     // allow all logged in users
+    //     return !!session?.data;
+    //
+    //     // only allow admins
+    //     // return !!session?.data?.isAdmin;
+    //   }
 
   })as KeystoneConfig<BaseKeystoneTypeInfo>
 );
