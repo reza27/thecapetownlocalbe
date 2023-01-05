@@ -90,7 +90,7 @@ export default withAuth(
     // },
     db: {
       provider: 'postgresql',
-      url: `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`,
+      url: `${process.env.DATABASE_URL}`,
       onConnect: async context => { /* ... */ },
       // Optional advanced configuration
       enableLogging: true,
