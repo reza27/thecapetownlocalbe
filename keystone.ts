@@ -77,16 +77,25 @@ export default withAuth(
   // Using the config function helps typescript guide you to the available options.
   config({
     // the db sets the database provider - we're using sqlite for the fastest startup experience
+    // db: {
+    //   provider: 'sqlite',
+    //   url: 'file:./keystone.db',
+    //   // provider: 'postgresql',
+    //   // url: 'postgres://postgres:@localhost:5432/thecptlocal',
+    //   // onConnect: async context => { /* ... */ },
+    //   // // Optional advanced configuration
+    //   // enableLogging: true,
+    //   // useMigrations: true,
+    //   // idField: { kind: 'uuid' }
+    // },
     db: {
-      provider: 'sqlite',
-      url: 'file:./keystone.db',
-      // provider: 'postgresql',
-      // url: 'postgres://postgres:@localhost:5432/thecptlocal',
-      // onConnect: async context => { /* ... */ },
-      // // Optional advanced configuration
-      // enableLogging: true,
-      // useMigrations: true,
-      // idField: { kind: 'uuid' }
+      provider: 'postgresql',
+      url: `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@${process.env.PGHOST}:${process.env.PGPORT}/${process.env.PGDATABASE}`,
+      onConnect: async context => { /* ... */ },
+      // Optional advanced configuration
+      enableLogging: true,
+      useMigrations: true,
+      idField: { kind: 'uuid' },
     },
     // graphql: {
     //    debug: true,
