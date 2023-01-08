@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
-    "build": "keystone build",
+    "build": "keystone build && keystone prisma migrate deploy",
     "postinstall": "keystone postinstall"
   },
   "// @aws-sdk": "temporary dependency until https://github.com/keystonejs/keystone/issues/8023 is resolved",
