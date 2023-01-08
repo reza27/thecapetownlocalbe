@@ -438,6 +438,7 @@ export const lists: Lists = {
 
         },
       }),
+      test: text(),
       title: text({
         validation: {
         isRequired: true,
