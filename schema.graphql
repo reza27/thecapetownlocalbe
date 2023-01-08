@@ -709,6 +709,7 @@ input GuideRelateToManyForCreateInput {
 type Guide {
   id: ID!
   name: String
+  test: String
   title: String
   altText: String
   image: ImageFieldOutput
@@ -725,6 +726,7 @@ input GuideWhereInput {
   NOT: [GuideWhereInput!]
   id: IDFilter
   name: StringFilter
+  test: StringFilter
   title: StringFilter
   altText: StringFilter
   description: StringFilter
@@ -733,6 +735,7 @@ input GuideWhereInput {
 input GuideOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  test: OrderDirection
   title: OrderDirection
   altText: OrderDirection
   description: OrderDirection
@@ -740,6 +743,7 @@ input GuideOrderByInput {
 
 input GuideUpdateInput {
   name: String
+  test: String
   title: String
   altText: String
   image: ImageFieldInput
@@ -753,6 +757,7 @@ input GuideUpdateArgs {
 
 input GuideCreateInput {
   name: String
+  test: String
   title: String
   altText: String
   image: ImageFieldInput
