@@ -161,7 +161,7 @@ A field: The individual bits of data on your list, each with its own type.
   you can see some of the lists in what we use below.
 
 */
-require('dotenv').config();
+import { cloudinaryImage } from '@keystone-6/cloudinary';
 
 
 import { allowAll } from '@keystone-6/core/access';
@@ -184,7 +184,6 @@ import {
 // Keystone aims to have all the base field types, but you can make your own
 // custom ones.
 import { document } from '@keystone-6/fields-document';
-import { cloudinaryImage } from '@keystone-6/cloudinary';
 
 // We are using Typescript, and we want our types experience to be as strict as it can be.
 // By providing the Keystone generated `Lists` type to our lists object, we refine
@@ -298,14 +297,14 @@ export const lists: Lists = {
       }),
       altText: text(),
       image: cloudinaryImage({
-          cloudinary: {
-            cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-            apiKey: process.env.CLOUDINARY_API_KEY,
-            apiSecret: process.env.CLOUDINARY_API_SECRET,
-            folder: process.env.CLOUDINARY_API_FOLDER,
-          },
-        })
-    }
+            cloudinary: {
+              cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+              apiKey: process.env.CLOUDINARY_API_KEY,
+              apiSecret: process.env.CLOUDINARY_API_SECRET,
+              folder: process.env.CLOUDINARY_API_FOLDER,
+            },
+          }),
+        }
   }),
   ServiceItem: list({
     access: allowAll,
@@ -405,13 +404,13 @@ export const lists: Lists = {
         },
       }),
       featureImage: cloudinaryImage({
-          cloudinary: {
-            cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-            apiKey: process.env.CLOUDINARY_API_KEY,
-            apiSecret: process.env.CLOUDINARY_API_SECRET,
-            folder: process.env.CLOUDINARY_API_FOLDER,
-          },
-        }),
+              cloudinary: {
+                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+                apiKey: process.env.CLOUDINARY_API_KEY,
+                apiSecret: process.env.CLOUDINARY_API_SECRET,
+                folder: process.env.CLOUDINARY_API_FOLDER,
+              },
+            }),
       content: document({
         formatting: true,
         layouts: [
@@ -463,13 +462,13 @@ export const lists: Lists = {
       }),
       altText: text(),
       image: cloudinaryImage({
-          cloudinary: {
-            cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-            apiKey: process.env.CLOUDINARY_API_KEY,
-            apiSecret: process.env.CLOUDINARY_API_SECRET,
-            folder: process.env.CLOUDINARY_API_FOLDER,
-          },
-        }),
+              cloudinary: {
+                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+                apiKey: process.env.CLOUDINARY_API_KEY,
+                apiSecret: process.env.CLOUDINARY_API_SECRET,
+                folder: process.env.CLOUDINARY_API_FOLDER,
+              },
+            }),
       description: text({
         validation: {
         isRequired: true,
