@@ -161,6 +161,8 @@ A field: The individual bits of data on your list, each with its own type.
   you can see some of the lists in what we use below.
 
 */
+require('dotenv').config();
+
 
 import { allowAll } from '@keystone-6/core/access';
 

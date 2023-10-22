@@ -12,10 +12,10 @@
   "// @aws-sdk": "temporary dependency until https://github.com/keystonejs/keystone/issues/8023 is resolved",
   "dependencies": {
     "@aws-sdk/util-endpoints": "^3.192.0",
-    "@keystone-6/auth": "^6.0.0",
-    "@keystone-6/cloudinary": "^6.0.0",
-    "@keystone-6/core": "^4.0.1",
-    "@keystone-6/fields-document": "^6.0.0",
+    "@keystone-6/auth": "^7.0.2",
+    "@keystone-6/cloudinary": "^7.0.1",
+    "@keystone-6/core": "^5.6.0",
+    "@keystone-6/fields-document": "^8.0.2",
     "dotenv": "^16.0.3",
     "nodemailer": "^6.8.0",
     "typescript": "^4.8.0"
