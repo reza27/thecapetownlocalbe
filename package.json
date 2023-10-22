@@ -6,12 +6,14 @@
     "dev": "keystone dev",
     "start": "keystone start",
     "build": "keystone build && keystone prisma migrate deploy",
+    "build2": "keystone prisma migrate deploy",
     "postinstall": "keystone postinstall"
   },
   "// @aws-sdk": "temporary dependency until https://github.com/keystonejs/keystone/issues/8023 is resolved",
   "dependencies": {
     "@aws-sdk/util-endpoints": "^3.192.0",
     "@keystone-6/auth": "^6.0.0",
+    "@keystone-6/cloudinary": "^6.0.0",
     "@keystone-6/core": "^4.0.1",
     "@keystone-6/fields-document": "^6.0.0",
     "dotenv": "^16.0.3",
