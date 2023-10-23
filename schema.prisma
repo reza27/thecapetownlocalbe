@@ -109,7 +109,6 @@ model About {
 model Guide {
   id                String  @id @default(uuid()) @postgresql.Uuid
   name              String  @default("")
-  test              String  @default("")
   title             String  @default("")
   altText           String  @default("")
   image_filesize    Int?

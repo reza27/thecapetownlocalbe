@@ -409,11 +409,11 @@ export const lists: Lists = {
       }),
       guides:relationship({ ref: 'Guide', many: true,  ui: {
         displayMode:'cards',
-        cardFields: ['image', 'name', 'description', 'altText'],
-        inlineEdit: { fields: ['image', 'name', 'description', 'altText'] },
+        cardFields: ['image', 'title', 'name', 'description', 'altText'],
+        inlineEdit: { fields: ['image', 'title', 'name', 'description', 'altText'] },
         linkToItem: true,
         inlineConnect: true,
-        inlineCreate: { fields: ['image', 'name', 'description', 'altText'] }
+        inlineCreate: { fields: ['image','title', 'name', 'description', 'altText'] }
       }}),
       affiliations: relationship({ ref: 'Image', many: true,  ui: {
              displayMode:'cards',
@@ -438,7 +438,6 @@ export const lists: Lists = {
 
         },
       }),
-      test: text(),
       title: text({
         validation: {
         isRequired: true,
