@@ -169,11 +169,11 @@ export default withAuth(
         generateUrl: path => `${process.env.NODE_ENV==='production'? process.env.PROD_URL:process.env.ASSET_BASE_URL}/images${path}`,
         // The route that will be created in Keystone's backend to serve the images
         serverRoute: {
-          path: '/images',
+          path: `${process.env.NODE_ENV==='production'? process.env.RAILWAY_VOLUME_MOUNT_PATH:'/images'}`,
         },
         // Set serverRoute to null if you don't want a route to be created in Keystone
         // serverRoute: null
-        storagePath: 'public/images',
+        storagePath: `${process.env.NODE_ENV==='production'? process.env.RAILWAY_VOLUME_MOUNT_PATH:'public/images'}`,
       },
       /** more storage */
     }
