@@ -1,6 +1,7 @@
 
 function CustomLogo () {
-    return <img width="auto" height="100" style={{marginLeft:"-20px"}} src="./../images/thecptlocal.png" />
+  let url = `${process.env.NODE_ENV==='production'?process.env.RAILWAY_VOLUME_MOUNT_PATH + '/thecptlocal.png' :'./../images/thecptlocal.png'}`;
+    return <img width="auto" height="100" style={{marginLeft:"-20px"}} src={{url}} />
 }
 
 export const components = {
