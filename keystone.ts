@@ -149,16 +149,16 @@ export default withAuth(
        },
      },
 
-    storage: {
-      // my_S3_images: {
-      //   my_s3_files: {
-      //   kind: 's3', // this storage uses S3
-      //   type: 'image', // only for files
-      //   process.env.S3_BUCKET_NAME, // from your S3_BUCKET_NAME environment variable
-      //   process.env.S3_REGION, // from your S3_REGION environment variable
-      //   process.env.S3_ACCESS_KEY_ID, // from your S3_ACCESS_KEY_ID environment variable
-      //   process.env.S3_SECRET_ACCESS_KEY, // from your S3_SECRET_ACCESS_KEY environment variable
-      // },
+     storage: {
+    //   // my_S3_images: {
+    //   //   my_s3_files: {
+    //   //   kind: 's3', // this storage uses S3
+    //   //   type: 'image', // only for files
+    //   //   process.env.S3_BUCKET_NAME, // from your S3_BUCKET_NAME environment variable
+    //   //   process.env.S3_REGION, // from your S3_REGION environment variable
+    //   //   process.env.S3_ACCESS_KEY_ID, // from your S3_ACCESS_KEY_ID environment variable
+    //   //   process.env.S3_SECRET_ACCESS_KEY, // from your S3_SECRET_ACCESS_KEY environment variable
+    //   // },
       local_images: {
         // Images that use this store will be stored on the local machine
         kind: 'local',

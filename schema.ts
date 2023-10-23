@@ -161,8 +161,6 @@ A field: The individual bits of data on your list, each with its own type.
   you can see some of the lists in what we use below.
 
 */
-import { cloudinaryImage } from '@keystone-6/cloudinary';
-
 
 import { allowAll } from '@keystone-6/core/access';
 
@@ -296,15 +294,8 @@ export const lists: Lists = {
         },
       }),
       altText: text(),
-      image: cloudinaryImage({
-            cloudinary: {
-              cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-              apiKey: process.env.CLOUDINARY_API_KEY,
-              apiSecret: process.env.CLOUDINARY_API_SECRET,
-              folder: process.env.CLOUDINARY_API_FOLDER,
-            },
-          }),
-        }
+      image: image({ storage: 'local_images' })
+    }
   }),
   ServiceItem: list({
     access: allowAll,
@@ -403,14 +394,7 @@ export const lists: Lists = {
         isRequired: true,
         },
       }),
-      featureImage: cloudinaryImage({
-              cloudinary: {
-                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-                apiKey: process.env.CLOUDINARY_API_KEY,
-                apiSecret: process.env.CLOUDINARY_API_SECRET,
-                folder: process.env.CLOUDINARY_API_FOLDER,
-              },
-            }),
+      featureImage: image({ storage: 'local_images' }),
       content: document({
         formatting: true,
         layouts: [
@@ -461,14 +445,7 @@ export const lists: Lists = {
         },
       }),
       altText: text(),
-      image: cloudinaryImage({
-              cloudinary: {
-                cloudName: process.env.CLOUDINARY_CLOUD_NAME,
-                apiKey: process.env.CLOUDINARY_API_KEY,
-                apiSecret: process.env.CLOUDINARY_API_SECRET,
-                folder: process.env.CLOUDINARY_API_FOLDER,
-              },
-            }),
+      image: image({ storage: 'local_images' }),
       description: text({
         validation: {
         isRequired: true,

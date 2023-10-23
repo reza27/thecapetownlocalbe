@@ -133,9 +133,9 @@ input UserCreateInput {
 type Activity {
   id: ID!
   title: String
-  activityItemHeading(where: ActivityItemHeadingWhereInput! = {}, orderBy: [ActivityItemHeadingOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityItemHeadingWhereUniqueInput): [ActivityItemHeading!]
+  activityItemHeading(where: ActivityItemHeadingWhereInput! = {}, orderBy: [ActivityItemHeadingOrderByInput!]! = [], take: Int, skip: Int! = 0): [ActivityItemHeading!]
   activityItemHeadingCount(where: ActivityItemHeadingWhereInput! = {}): Int
-  faq(where: FaqWhereInput! = {}, orderBy: [FaqOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FaqWhereUniqueInput): [Faq!]
+  faq(where: FaqWhereInput! = {}, orderBy: [FaqOrderByInput!]! = [], take: Int, skip: Int! = 0): [Faq!]
   faqCount(where: FaqWhereInput! = {}): Int
 }
 
@@ -214,7 +214,7 @@ input FaqRelateToManyForCreateInput {
 type ActivityItemHeading {
   id: ID!
   title: String
-  activityItems(where: ActivityItemWhereInput! = {}, orderBy: [ActivityItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityItemWhereUniqueInput): [ActivityItem!]
+  activityItems(where: ActivityItemWhereInput! = {}, orderBy: [ActivityItemOrderByInput!]! = [], take: Int, skip: Int! = 0): [ActivityItem!]
   activityItemsCount(where: ActivityItemWhereInput! = {}): Int
 }
 
@@ -275,7 +275,7 @@ type ActivityItem {
   content: ActivityItem_content_Document
   tab: String
   anchor: String
-  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
   price: String
   duration: String
@@ -358,55 +358,23 @@ type Image {
   id: ID!
   name: String
   altText: String
-  image: CloudinaryImage_File
+  image: ImageFieldOutput
 }
 
-type CloudinaryImage_File {
-  id: ID
-  filename: String
-  originalFilename: String
-  mimetype: String
-  encoding: String
-  publicUrl: String
-  publicUrlTransformed(transformation: CloudinaryImageFormat): String
+type ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  url: String!
 }
 
-"""
-Mirrors the formatting options [Cloudinary provides](https://cloudinary.com/documentation/image_transformation_reference).
-All options are strings as they ultimately end up in a URL.
-"""
-input CloudinaryImageFormat {
-  """ Rewrites the filename to be this pretty string. Do not include `/` or `.`
-  """
-  prettyName: String
-  width: String
-  height: String
-  crop: String
-  aspect_ratio: String
-  gravity: String
-  zoom: String
-  x: String
-  y: String
-  format: String
-  fetch_format: String
-  quality: String
-  radius: String
-  angle: String
-  effect: String
-  opacity: String
-  border: String
-  background: String
-  overlay: String
-  underlay: String
-  default_image: String
-  delay: String
-  color: String
-  color_space: String
-  dpr: String
-  page: String
-  density: String
-  flags: String
-  transformation: String
+enum ImageExtension {
+  jpg
+  png
+  webp
+  gif
 }
 
 input ImageWhereUniqueInput {
@@ -431,7 +399,11 @@ input ImageOrderByInput {
 input ImageUpdateInput {
   name: String
   altText: String
-  image: Upload
+  image: ImageFieldInput
+}
+
+input ImageFieldInput {
+  upload: Upload!
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -445,14 +417,14 @@ input ImageUpdateArgs {
 input ImageCreateInput {
   name: String
   altText: String
-  image: Upload
+  image: ImageFieldInput
 }
 
 type ServiceItem {
   id: ID!
   title: String
   content: ServiceItem_content_Document
-  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
   price: String
 }
@@ -503,7 +475,7 @@ input ServiceItemCreateInput {
 type Service {
   id: ID!
   title: String
-  serviceItems(where: ServiceItemWhereInput! = {}, orderBy: [ServiceItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ServiceItemWhereUniqueInput): [ServiceItem!]
+  serviceItems(where: ServiceItemWhereInput! = {}, orderBy: [ServiceItemOrderByInput!]! = [], take: Int, skip: Int! = 0): [ServiceItem!]
   serviceItemsCount(where: ServiceItemWhereInput! = {}): Int
 }
 
@@ -560,7 +532,7 @@ input ServiceItemRelateToManyForCreateInput {
 
 type Home {
   id: ID!
-  homeTours(where: HomeTourWhereInput! = {}, orderBy: [HomeTourOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HomeTourWhereUniqueInput): [HomeTour!]
+  homeTours(where: HomeTourWhereInput! = {}, orderBy: [HomeTourOrderByInput!]! = [], take: Int, skip: Int! = 0): [HomeTour!]
   homeToursCount(where: HomeTourWhereInput! = {}): Int
 }
 
@@ -664,11 +636,11 @@ input ActivityItemRelateToOneForCreateInput {
 type About {
   id: ID!
   title: String
-  featureImage: CloudinaryImage_File
+  featureImage: ImageFieldOutput
   content: About_content_Document
-  guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GuideWhereUniqueInput): [Guide!]
+  guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0): [Guide!]
   guidesCount(where: GuideWhereInput! = {}): Int
-  affiliations(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  affiliations(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
   affiliationsCount(where: ImageWhereInput! = {}): Int
 }
 
@@ -703,7 +675,7 @@ input AboutOrderByInput {
 
 input AboutUpdateInput {
   title: String
-  featureImage: Upload
+  featureImage: ImageFieldInput
   content: JSON
   guides: GuideRelateToManyForUpdateInput
   affiliations: ImageRelateToManyForUpdateInput
@@ -723,7 +695,7 @@ input AboutUpdateArgs {
 
 input AboutCreateInput {
   title: String
-  featureImage: Upload
+  featureImage: ImageFieldInput
   content: JSON
   guides: GuideRelateToManyForCreateInput
   affiliations: ImageRelateToManyForCreateInput
@@ -740,7 +712,7 @@ type Guide {
   test: String
   title: String
   altText: String
-  image: CloudinaryImage_File
+  image: ImageFieldOutput
   description: String
 }
 
@@ -774,7 +746,7 @@ input GuideUpdateInput {
   test: String
   title: String
   altText: String
-  image: Upload
+  image: ImageFieldInput
   description: String
 }
 
@@ -788,7 +760,7 @@ input GuideCreateInput {
   test: String
   title: String
   altText: String
-  image: Upload
+  image: ImageFieldInput
   description: String
 }
 
@@ -946,40 +918,40 @@ enum PasswordResetRedemptionErrorCode {
 }
 
 type Query {
-  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
-  activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityWhereUniqueInput): [Activity!]
+  activities(where: ActivityWhereInput! = {}, orderBy: [ActivityOrderByInput!]! = [], take: Int, skip: Int! = 0): [Activity!]
   activity(where: ActivityWhereUniqueInput!): Activity
   activitiesCount(where: ActivityWhereInput! = {}): Int
-  activityItemHeadings(where: ActivityItemHeadingWhereInput! = {}, orderBy: [ActivityItemHeadingOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityItemHeadingWhereUniqueInput): [ActivityItemHeading!]
+  activityItemHeadings(where: ActivityItemHeadingWhereInput! = {}, orderBy: [ActivityItemHeadingOrderByInput!]! = [], take: Int, skip: Int! = 0): [ActivityItemHeading!]
   activityItemHeading(where: ActivityItemHeadingWhereUniqueInput!): ActivityItemHeading
   activityItemHeadingsCount(where: ActivityItemHeadingWhereInput! = {}): Int
-  activityItems(where: ActivityItemWhereInput! = {}, orderBy: [ActivityItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ActivityItemWhereUniqueInput): [ActivityItem!]
+  activityItems(where: ActivityItemWhereInput! = {}, orderBy: [ActivityItemOrderByInput!]! = [], take: Int, skip: Int! = 0): [ActivityItem!]
   activityItem(where: ActivityItemWhereUniqueInput!): ActivityItem
   activityItemsCount(where: ActivityItemWhereInput! = {}): Int
-  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
   image(where: ImageWhereUniqueInput!): Image
   imagesCount(where: ImageWhereInput! = {}): Int
-  serviceItems(where: ServiceItemWhereInput! = {}, orderBy: [ServiceItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ServiceItemWhereUniqueInput): [ServiceItem!]
+  serviceItems(where: ServiceItemWhereInput! = {}, orderBy: [ServiceItemOrderByInput!]! = [], take: Int, skip: Int! = 0): [ServiceItem!]
   serviceItem(where: ServiceItemWhereUniqueInput!): ServiceItem
   serviceItemsCount(where: ServiceItemWhereInput! = {}): Int
-  services(where: ServiceWhereInput! = {id: {equals: 1}}, orderBy: [ServiceOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ServiceWhereUniqueInput): [Service!]
+  services(where: ServiceWhereInput! = {id: {equals: 1}}, orderBy: [ServiceOrderByInput!]! = [], take: Int, skip: Int! = 0): [Service!]
   service(where: ServiceWhereUniqueInput! = {id: 1}): Service
   servicesCount(where: ServiceWhereInput! = {id: {equals: 1}}): Int
-  homes(where: HomeWhereInput! = {id: {equals: 1}}, orderBy: [HomeOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HomeWhereUniqueInput): [Home!]
+  homes(where: HomeWhereInput! = {id: {equals: 1}}, orderBy: [HomeOrderByInput!]! = [], take: Int, skip: Int! = 0): [Home!]
   home(where: HomeWhereUniqueInput! = {id: 1}): Home
   homesCount(where: HomeWhereInput! = {id: {equals: 1}}): Int
-  homeTours(where: HomeTourWhereInput! = {}, orderBy: [HomeTourOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: HomeTourWhereUniqueInput): [HomeTour!]
+  homeTours(where: HomeTourWhereInput! = {}, orderBy: [HomeTourOrderByInput!]! = [], take: Int, skip: Int! = 0): [HomeTour!]
   homeTour(where: HomeTourWhereUniqueInput!): HomeTour
   homeToursCount(where: HomeTourWhereInput! = {}): Int
-  abouts(where: AboutWhereInput! = {id: {equals: 1}}, orderBy: [AboutOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AboutWhereUniqueInput): [About!]
+  abouts(where: AboutWhereInput! = {id: {equals: 1}}, orderBy: [AboutOrderByInput!]! = [], take: Int, skip: Int! = 0): [About!]
   about(where: AboutWhereUniqueInput! = {id: 1}): About
   aboutsCount(where: AboutWhereInput! = {id: {equals: 1}}): Int
-  guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: GuideWhereUniqueInput): [Guide!]
+  guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0): [Guide!]
   guide(where: GuideWhereUniqueInput!): Guide
   guidesCount(where: GuideWhereInput! = {}): Int
-  faqs(where: FaqWhereInput! = {}, orderBy: [FaqOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FaqWhereUniqueInput): [Faq!]
+  faqs(where: FaqWhereInput! = {}, orderBy: [FaqOrderByInput!]! = [], take: Int, skip: Int! = 0): [Faq!]
   faq(where: FaqWhereUniqueInput!): Faq
   faqsCount(where: FaqWhereInput! = {}): Int
   keystone: KeystoneMeta!
@@ -1030,7 +1002,6 @@ type KeystoneAdminUIFieldMeta {
   description: String
   isOrderable: Boolean!
   isFilterable: Boolean!
-  isNonNull: [KeystoneAdminUIFieldMetaIsNonNull!]
   fieldMeta: JSON
   viewsIndex: Int!
   customViewsIndex: Int
@@ -1038,12 +1009,6 @@ type KeystoneAdminUIFieldMeta {
   listView: KeystoneAdminUIFieldMetaListView!
   itemView(id: ID): KeystoneAdminUIFieldMetaItemView
   search: QueryMode
-}
-
-enum KeystoneAdminUIFieldMetaIsNonNull {
-  read
-  create
-  update
 }
 
 type KeystoneAdminUIFieldMetaCreateView {
