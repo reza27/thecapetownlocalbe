@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 function CustomLogo () {
-  let url = `${process.env.NODE_ENV==='production'? process.env.RAILWAY_VOLUME_MOUNT_PATH + '/thecptlocal.png':'../images/thecptlocal.png'}`
+  let url = `${process.env.NODE_ENV==='production'? '/thecptlocal.png':'../images/thecptlocal.png'}`
     return <img width="auto" height="100" style={{marginLeft:"-20px"}} src={url} />
 }
 
