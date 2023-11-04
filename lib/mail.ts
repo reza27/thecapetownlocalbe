@@ -57,10 +57,10 @@ export async function sendPasswordResetEmail(resetToken: string, to: string): Pr
   // email the user a token
   const info = await transport.sendMail({
     to,
-    from: 'stackinteractiveblog@gmail.com',
+    from: 'info@thecapetownlocal.com',
     subject: 'Your password reset token!',
     html: makeANiceEmail(`Your Password Reset Token is here!
-      <a href="http://localhost:3000/reset?token=${resetToken}">Click Here to reset</a>
+      <a href="${process.env.NODE_ENV==='production'? process.env.PROD_URL:'http://localhost:3000/reset?token=${resetToken}'}">Click Here to reset</a>
     `),
   });
   if (user?.includes('ethereal.email')) {
