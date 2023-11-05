@@ -6,6 +6,8 @@
 // - https://keystonejs.com/docs/config/lists
 
 //import { list } from '@keystone-6/core';
+require('dotenv').config();
+
 import { allowAll } from '@keystone-6/core/access';
 //
 // // see https://keystonejs.com/docs/fields/overview for the full list of fields
@@ -183,6 +185,9 @@ import {
 // custom ones.
 import { document } from '@keystone-6/fields-document';
 
+import { cloudinaryImage } from '@keystone-6/cloudinary';
+
+
 // We are using Typescript, and we want our types experience to be as strict as it can be.
 // By providing the Keystone generated `Lists` type to our lists object, we refine
 // our types to a stricter subset that is type-aware of other lists in our schema
@@ -294,7 +299,14 @@ export const lists: Lists = {
         },
       }),
       altText: text(),
-      image: image({ storage: 'local_images' })
+      image: cloudinaryImage({
+          cloudinary: {
+            cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+            apiKey: process.env.CLOUDINARY_API_KEY,
+            apiSecret: process.env.CLOUDINARY_API_SECRET,
+            folder: process.env.CLOUDINARY_API_FOLDER,
+          },
+        })
     }
   }),
   ServiceItem: list({
@@ -394,7 +406,6 @@ export const lists: Lists = {
         isRequired: true,
         },
       }),
-      featureImage: image({ storage: 'local_images' }),
       content: document({
         formatting: true,
         layouts: [
@@ -444,7 +455,14 @@ export const lists: Lists = {
         },
       }),
       altText: text(),
-      image: image({ storage: 'local_images' }),
+      image: cloudinaryImage({
+          cloudinary: {
+            cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+            apiKey: process.env.CLOUDINARY_API_KEY,
+            apiSecret: process.env.CLOUDINARY_API_SECRET,
+            folder: process.env.CLOUDINARY_API_FOLDER,
+          },
+        }),
       description: text({
         validation: {
         isRequired: true,
