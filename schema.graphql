@@ -358,23 +358,55 @@ type Image {
   id: ID!
   name: String
   altText: String
-  image: ImageFieldOutput
+  image: CloudinaryImage_File
 }
 
-type ImageFieldOutput {
-  id: ID!
-  filesize: Int!
-  width: Int!
-  height: Int!
-  extension: ImageExtension!
-  url: String!
+type CloudinaryImage_File {
+  id: ID
+  filename: String
+  originalFilename: String
+  mimetype: String
+  encoding: String
+  publicUrl: String
+  publicUrlTransformed(transformation: CloudinaryImageFormat): String
 }
 
-enum ImageExtension {
-  jpg
-  png
-  webp
-  gif
+"""
+Mirrors the formatting options [Cloudinary provides](https://cloudinary.com/documentation/image_transformation_reference).
+All options are strings as they ultimately end up in a URL.
+"""
+input CloudinaryImageFormat {
+  """ Rewrites the filename to be this pretty string. Do not include `/` or `.`
+  """
+  prettyName: String
+  width: String
+  height: String
+  crop: String
+  aspect_ratio: String
+  gravity: String
+  zoom: String
+  x: String
+  y: String
+  format: String
+  fetch_format: String
+  quality: String
+  radius: String
+  angle: String
+  effect: String
+  opacity: String
+  border: String
+  background: String
+  overlay: String
+  underlay: String
+  default_image: String
+  delay: String
+  color: String
+  color_space: String
+  dpr: String
+  page: String
+  density: String
+  flags: String
+  transformation: String
 }
 
 input ImageWhereUniqueInput {
@@ -399,11 +431,7 @@ input ImageOrderByInput {
 input ImageUpdateInput {
   name: String
   altText: String
-  image: ImageFieldInput
-}
-
-input ImageFieldInput {
-  upload: Upload!
+  image: Upload
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -417,7 +445,7 @@ input ImageUpdateArgs {
 input ImageCreateInput {
   name: String
   altText: String
-  image: ImageFieldInput
+  image: Upload
 }
 
 type ServiceItem {
@@ -636,7 +664,6 @@ input ActivityItemRelateToOneForCreateInput {
 type About {
   id: ID!
   title: String
-  featureImage: ImageFieldOutput
   content: About_content_Document
   guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0): [Guide!]
   guidesCount(where: GuideWhereInput! = {}): Int
@@ -675,7 +702,6 @@ input AboutOrderByInput {
 
 input AboutUpdateInput {
   title: String
-  featureImage: ImageFieldInput
   content: JSON
   guides: GuideRelateToManyForUpdateInput
   affiliations: ImageRelateToManyForUpdateInput
@@ -695,7 +721,6 @@ input AboutUpdateArgs {
 
 input AboutCreateInput {
   title: String
-  featureImage: ImageFieldInput
   content: JSON
   guides: GuideRelateToManyForCreateInput
   affiliations: ImageRelateToManyForCreateInput
@@ -711,7 +736,7 @@ type Guide {
   name: String
   title: String
   altText: String
-  image: ImageFieldOutput
+  image: CloudinaryImage_File
   description: String
 }
 
@@ -742,7 +767,7 @@ input GuideUpdateInput {
   name: String
   title: String
   altText: String
-  image: ImageFieldInput
+  image: Upload
   description: String
 }
 
@@ -755,7 +780,7 @@ input GuideCreateInput {
   name: String
   title: String
   altText: String
-  image: ImageFieldInput
+  image: Upload
   description: String
 }
 
