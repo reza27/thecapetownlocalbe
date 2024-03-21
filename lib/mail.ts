@@ -10,8 +10,8 @@ import { createTransport, getTestMessageUrl } from 'nodemailer';
 //   },
 // });
 
-const user = "stackinteractiveblog@gmail.com"
-const pass = "qdrskfnllylcwcga";
+const user = "tauriq@thecapetownlcal.com"
+const pass = "bqzcwqxznxlwuszy";
 
 const transport = createTransport({
   service: "Gmail",
