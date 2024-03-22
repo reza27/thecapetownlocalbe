@@ -10,7 +10,7 @@ import { createTransport, getTestMessageUrl } from 'nodemailer';
 //   },
 // });
 
-const user = "tauriq@thecapetownlcal.com"
+const user = "tauriq@thecapetownlocal.com"
 const pass = "bqzcwqxznxlwuszy";
 
 const transport = createTransport({
