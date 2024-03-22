@@ -47,8 +47,8 @@ import { withAuth, session } from './auth';
 const publicPageRoutes = ["/reset"];
 
 const nodemailer = require("nodemailer");
-const user = "stackinteractiveblog@gmail.com"
-const pass = "donipoapwhizfssi";
+const user = "tauriq@thecapetownlocal.com"
+const pass = "bqzcwqxznxlwuszy";
 
 const transport = nodemailer.createTransport({
   service: "Gmail",
