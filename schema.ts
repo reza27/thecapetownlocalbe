@@ -467,7 +467,7 @@ export const lists: Lists = {
         validation: {
         isRequired: true,
           length: {
-            max: 80
+            max: 160
           }
         },
       })
