@@ -130,7 +130,7 @@ export default withAuth(
              transport.sendMail({
              from: req.body.email,
              replyTo: req.body.email,
-             to: 'tauriq@thecapetownlocal.com',
+             to: 'tauriqg@gmail.com',
              subject: `Customer request: ${req.body.subject}` ,
              html: `<p><strong>Name:</strong> ${req.body.name}</>
                  <p><strong>Email:</strong> ${req.body.email}</p>
