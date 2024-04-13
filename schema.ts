@@ -179,6 +179,7 @@ import {
   timestamp,
   select,
   image,
+  integer
 } from '@keystone-6/core/fields';
 // The document field is a more complicated field, so it's in its own package
 // Keystone aims to have all the base field types, but you can make your own
@@ -418,13 +419,25 @@ export const lists: Lists = {
         links: true,
         dividers: true,
       }),
+      guidesInfo: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
+      }),
       guides:relationship({ ref: 'Guide', many: true,  ui: {
         displayMode:'cards',
-        cardFields: ['image', 'title', 'name', 'description', 'altText'],
-        inlineEdit: { fields: ['image', 'title', 'name', 'description', 'altText'] },
+        cardFields: ['image', 'title', 'name', 'description', 'altText','displayIndex'],
+        inlineEdit: { fields: ['image', 'title', 'name', 'description', 'altText', 'displayIndex'] },
         linkToItem: true,
         inlineConnect: true,
-        inlineCreate: { fields: ['image','title', 'name', 'description', 'altText'] }
+        inlineCreate: { fields: ['image','title', 'name', 'description', 'altText', 'displayIndex'] }
       }}),
       affiliations: relationship({ ref: 'Image', many: true,  ui: {
              displayMode:'cards',
@@ -454,6 +467,13 @@ export const lists: Lists = {
         isRequired: true,
         },
       }),
+      displayIndex: integer({
+          defaultValue: 0,
+          db: { map: 'display_index' },
+          validation: {
+            isRequired: true,
+          }
+        }),
       altText: text(),
       image: cloudinaryImage({
           cloudinary: {

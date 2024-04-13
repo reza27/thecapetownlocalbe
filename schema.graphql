@@ -665,6 +665,7 @@ type About {
   id: ID!
   title: String
   content: About_content_Document
+  guidesInfo: About_guidesInfo_Document
   guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0): [Guide!]
   guidesCount(where: GuideWhereInput! = {}): Int
   affiliations(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
@@ -672,6 +673,10 @@ type About {
 }
 
 type About_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type About_guidesInfo_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
@@ -703,6 +708,7 @@ input AboutOrderByInput {
 input AboutUpdateInput {
   title: String
   content: JSON
+  guidesInfo: JSON
   guides: GuideRelateToManyForUpdateInput
   affiliations: ImageRelateToManyForUpdateInput
 }
@@ -722,6 +728,7 @@ input AboutUpdateArgs {
 input AboutCreateInput {
   title: String
   content: JSON
+  guidesInfo: JSON
   guides: GuideRelateToManyForCreateInput
   affiliations: ImageRelateToManyForCreateInput
 }
@@ -735,6 +742,7 @@ type Guide {
   id: ID!
   name: String
   title: String
+  displayIndex: Int
   altText: String
   image: CloudinaryImage_File
   description: String
@@ -751,14 +759,27 @@ input GuideWhereInput {
   id: IDFilter
   name: StringFilter
   title: StringFilter
+  displayIndex: IntFilter
   altText: StringFilter
   description: StringFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
 }
 
 input GuideOrderByInput {
   id: OrderDirection
   name: OrderDirection
   title: OrderDirection
+  displayIndex: OrderDirection
   altText: OrderDirection
   description: OrderDirection
 }
@@ -766,6 +787,7 @@ input GuideOrderByInput {
 input GuideUpdateInput {
   name: String
   title: String
+  displayIndex: Int
   altText: String
   image: Upload
   description: String
@@ -779,6 +801,7 @@ input GuideUpdateArgs {
 input GuideCreateInput {
   name: String
   title: String
+  displayIndex: Int
   altText: String
   image: Upload
   description: String
