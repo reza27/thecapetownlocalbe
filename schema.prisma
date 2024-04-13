@@ -93,6 +93,7 @@ model About {
   id           Int     @id
   title        String  @default("")
   content      Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  guidesInfo   Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   guides       Guide[] @relation("About_guides")
   affiliations Image[] @relation("About_affiliations")
 }
@@ -101,6 +102,7 @@ model Guide {
   id                String  @id @default(uuid()) @postgresql.Uuid
   name              String  @default("")
   title             String  @default("")
+  displayIndex      Int     @default(0) @map("display_index")
   altText           String  @default("")
   image             Json?
   description       String  @default("")
