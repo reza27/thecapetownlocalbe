@@ -428,7 +428,7 @@ export const lists: Lists = {
           [1, 2],
           [1, 2, 1],
         ],
-        links: true,
+        links: false,
         dividers: true,
       }),
       guides:relationship({ ref: 'Guide', many: true,  ui: {
