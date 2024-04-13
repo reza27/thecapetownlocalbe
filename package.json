@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "keystone dev",
     "start": "keystone start",
-    "build": "keystone build && keystone prisma migrate deploy",
+    "build": "keystone build && keystone prisma migrate resolve --applied 20240413191012_guide_display_index",
     "build2": "keystone prisma migrate deploy",
     "build3": "keystone build",
     "postinstall": "keystone postinstall"
