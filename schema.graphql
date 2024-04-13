@@ -665,7 +665,7 @@ type About {
   id: ID!
   title: String
   content: About_content_Document
-  guidesInfo: About_guidesInfo_Document
+  guidesInfo1: About_guidesInfo1_Document
   guides(where: GuideWhereInput! = {}, orderBy: [GuideOrderByInput!]! = [], take: Int, skip: Int! = 0): [Guide!]
   guidesCount(where: GuideWhereInput! = {}): Int
   affiliations(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0): [Image!]
@@ -676,7 +676,7 @@ type About_content_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
-type About_guidesInfo_Document {
+type About_guidesInfo1_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
@@ -708,7 +708,7 @@ input AboutOrderByInput {
 input AboutUpdateInput {
   title: String
   content: JSON
-  guidesInfo: JSON
+  guidesInfo1: JSON
   guides: GuideRelateToManyForUpdateInput
   affiliations: ImageRelateToManyForUpdateInput
 }
@@ -728,7 +728,7 @@ input AboutUpdateArgs {
 input AboutCreateInput {
   title: String
   content: JSON
-  guidesInfo: JSON
+  guidesInfo1: JSON
   guides: GuideRelateToManyForCreateInput
   affiliations: ImageRelateToManyForCreateInput
 }

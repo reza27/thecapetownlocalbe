@@ -419,7 +419,7 @@ export const lists: Lists = {
         links: true,
         dividers: true,
       }),
-      guidesInfo: document({
+      guidesInfo1: document({
         formatting: true,
         layouts: [
           [1, 1],
