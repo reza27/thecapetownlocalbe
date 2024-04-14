@@ -93,7 +93,7 @@ model About {
   id           Int     @id
   title        String  @default("")
   content      Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  guidesInfo1  Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  guidesInfo   Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   guides       Guide[] @relation("About_guides")
   affiliations Image[] @relation("About_affiliations")
 }

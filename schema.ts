@@ -419,7 +419,7 @@ export const lists: Lists = {
         links: true,
         dividers: true,
       }),
-      guidesInfo1: document({
+      guidesInfo: document({
         formatting: true,
         layouts: [
           [1, 1],
@@ -428,7 +428,7 @@ export const lists: Lists = {
           [1, 2],
           [1, 2, 1],
         ],
-        links: false,
+        links: true,
         dividers: true,
       }),
       guides:relationship({ ref: 'Guide', many: true,  ui: {
