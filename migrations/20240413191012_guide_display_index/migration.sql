@@ -8,4 +8,4 @@
 ALTER TABLE "Guide" ADD COLUMN     "display_index" INTEGER NOT NULL DEFAULT 0;
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Guide_display_index_key" ON "Guide"("display_index");
+-- CREATE UNIQUE INDEX "Guide_display_index_key" ON "Guide"("display_index");
