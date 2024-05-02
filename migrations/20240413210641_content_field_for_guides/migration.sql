@@ -6,3 +6,4 @@
 */
 -- AlterTable
 ALTER TABLE "About" DROP COLUMN "guidesInfo"
+
