@@ -5,5 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "About" DROP COLUMN "guidesInfo",
-ADD COLUMN     "guidesInfo" JSONB NOT NULL DEFAULT '[{"type":"paragraph","children":[{"text":""}]}]';
+ALTER TABLE "About" DROP COLUMN "guidesInfo"
