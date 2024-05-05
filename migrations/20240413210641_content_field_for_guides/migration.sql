@@ -5,5 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "About" DROP COLUMN "guidesInfo"
-
+-- ALTER TABLE "About" DROP COLUMN "guidesInfo"
