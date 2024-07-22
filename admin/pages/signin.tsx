@@ -1,22 +1,31 @@
-import { ReactNode } from 'react';
-import { jsx, H1, Stack, Box, VisuallyHidden, Center, useTheme } from '@keystone-ui/core';
-import {FormContainer} from '../../lib/FormContainer';
+import { ReactNode } from "react";
+import {
+  jsx,
+  H1,
+  Stack,
+  Box,
+  VisuallyHidden,
+  Center,
+  useTheme,
+} from "@keystone-ui/core";
+import { FormContainer } from "../../lib/FormContainer";
 
+import { useState, Fragment, FormEvent, useRef, useEffect } from "react";
 
-import { useState, Fragment, FormEvent, useRef, useEffect } from 'react';
+import { Button } from "@keystone-ui/button";
+import { TextInput } from "@keystone-ui/fields";
+import { Notice } from "@keystone-ui/notice";
 
-import { Button } from '@keystone-ui/button';
-import { TextInput } from '@keystone-ui/fields';
-import { Notice } from '@keystone-ui/notice';
-
-import { useMutation, gql } from '@keystone-6/core/admin-ui/apollo';
-import { useRawKeystone, useReinitContext } from '@keystone-6/core/admin-ui/context';
-import { useRouter } from '@keystone-6/core/admin-ui/router';
-import { LoadingDots } from '@keystone-ui/loading';
+import { useMutation, gql } from "@keystone-6/core/admin-ui/apollo";
+import {
+  useRawKeystone,
+  useReinitContext,
+} from "@keystone-6/core/admin-ui/context";
+import { useRouter } from "@keystone-6/core/admin-ui/router";
+import { LoadingDots } from "@keystone-ui/loading";
 //import { SigninContainer } from '@keystone-6/auth/src/components/SigninContainer';
 //import { useRedirect } from '@keystone-6/auth/src/lib/useFromRedirect';
-import {useRedirect} from '../../lib/redirect';
-
+import { useRedirect } from "../../lib/redirect";
 
 type SigninPageProps = {
   identityField: string;
@@ -27,7 +36,8 @@ type SigninPageProps = {
   failureTypename: string;
 };
 
-export const SignIn = (props: SigninPageProps) => () => <SigninPage {...props} />;
+export const SignIn = (props: SigninPageProps) => () =>
+  <SigninPage {...props} />;
 
 export const SigninPage = ({
   identityField,
@@ -58,21 +68,22 @@ export const SigninPage = ({
     }
   `;
 
-  const [mode, setMode] = useState<'signin' | 'forgot password'>('signin');
-  const [state, setState] = useState({ identity: '', secret: '' });
+  const [mode, setMode] = useState<"signin" | "forgot password">("signin");
+  const [state, setState] = useState({ identity: "", secret: "" });
   const [sentEmail, setSentEmail] = useState(false);
 
   const identityFieldRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     identityFieldRef.current?.focus();
     setSentEmail(false);
-
   }, [mode]);
 
   const [mutate, { error, loading, data }] = useMutation(mutation);
-  const [mutateReset] = useMutation(mutationReset, {onCompleted: (data)=> {
-    setSentEmail(data.sendUserPasswordResetLink)
-  }});
+  const [mutateReset] = useMutation(mutationReset, {
+    onCompleted: (data) => {
+      setSentEmail(data.sendUserPasswordResetLink);
+    },
+  });
   const reinitContext = useReinitContext();
   const router = useRouter();
   const rawKeystone = useRawKeystone();
@@ -80,12 +91,12 @@ export const SigninPage = ({
 
   // This useEffect specifically handles ending up on the signin page from a SPA navigation
   useEffect(() => {
-    if (rawKeystone.authenticatedItem.state === 'authenticated') {
+    if (rawKeystone.authenticatedItem.state === "authenticated") {
       router.push(redirect);
     }
   }, [rawKeystone.authenticatedItem, router, redirect]);
 
-  if (rawKeystone.authenticatedItem.state === 'authenticated') {
+  if (rawKeystone.authenticatedItem.state === "authenticated") {
     return (
       <Center fillView>
         <LoadingDots label="Loading page" size="large" />
@@ -101,7 +112,7 @@ export const SigninPage = ({
         onSubmit={async (event: FormEvent<HTMLFormElement>) => {
           event.preventDefault();
 
-          if (mode === 'signin') {
+          if (mode === "signin") {
             try {
               let result = await mutate({
                 variables: {
@@ -117,27 +128,22 @@ export const SigninPage = ({
             }
             reinitContext();
             router.push(redirect);
-          }
-          else if (mode === 'forgot password') {
+          } else if (mode === "forgot password") {
             try {
               let result = await mutateReset({
                 variables: {
-                  email: state.identity
-                }
+                  email: state.identity,
+                },
               });
-              console.log('result1', result.data.sendUserPasswordResetLink)
-          } catch (err) {
-            setSentEmail(false);
+            } catch (err) {
+              setSentEmail(false);
 
-            return;
+              return;
+            }
           }
-
-        }
-      }}
+        }}
       >
-      {mode === 'signin' ?
-        <H1>Sign In</H1> :
-        <H1>Forgot Password</H1>}
+        {mode === "signin" ? <H1>Sign In</H1> : <H1>Forgot Password</H1>}
         {error && (
           <Notice title="Error" tone="negative">
             {error.message}
@@ -162,11 +168,11 @@ export const SigninPage = ({
             id="identity"
             name="identity"
             value={state.identity}
-            onChange={e => setState({ ...state, identity: e.target.value })}
+            onChange={(e) => setState({ ...state, identity: e.target.value })}
             placeholder={identityField}
             ref={identityFieldRef}
           />
-          {mode === 'signin' && (
+          {mode === "signin" && (
             <Fragment>
               <VisuallyHidden as="label" htmlFor="password">
                 {secretField}
@@ -175,7 +181,7 @@ export const SigninPage = ({
                 id="password"
                 name="password"
                 value={state.secret}
-                onChange={e => setState({ ...state, secret: e.target.value })}
+                onChange={(e) => setState({ ...state, secret: e.target.value })}
                 placeholder={secretField}
                 type="password"
               />
@@ -183,12 +189,21 @@ export const SigninPage = ({
           )}
         </Stack>
 
-        {mode === 'forgot password' ? (
+        {mode === "forgot password" ? (
           <Stack gap="medium" across>
-            <Button type="submit" weight="bold" tone="active" isDisabled={state.identity.length < 1}>
+            <Button
+              type="submit"
+              weight="bold"
+              tone="active"
+              isDisabled={state.identity.length < 1}
+            >
               Log reset link
             </Button>
-            <Button weight="none" tone="active" onClick={() => setMode('signin')}>
+            <Button
+              weight="none"
+              tone="active"
+              onClick={() => setMode("signin")}
+            >
               Go back
             </Button>
           </Stack>
@@ -208,20 +223,25 @@ export const SigninPage = ({
               Sign In
             </Button>
             {/* Disabled until we come up with a complete password reset workflow */}
-            <Button weight="none" tone="active" onClick={() => setMode('forgot password')}>
+            <Button
+              weight="none"
+              tone="active"
+              onClick={() => setMode("forgot password")}
+            >
               Forgot your password?
             </Button>
           </Stack>
         )}
       </Stack>
-      </FormContainer>
-  )
+    </FormContainer>
+  );
 };
 
 export default SignIn({
-  "identityField":"email",
-  "secretField":"password",
-  "mutationName":"authenticateUserWithPassword",
-  "mutationNameReset":"sendUserPasswordResetLink",
-  "successTypename":"UserAuthenticationWithPasswordSuccess",
-  "failureTypename":"UserAuthenticationWithPasswordFailure"});
+  identityField: "email",
+  secretField: "password",
+  mutationName: "authenticateUserWithPassword",
+  mutationNameReset: "sendUserPasswordResetLink",
+  successTypename: "UserAuthenticationWithPasswordSuccess",
+  failureTypename: "UserAuthenticationWithPasswordFailure",
+});
