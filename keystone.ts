@@ -11,8 +11,9 @@ import { withAuth, session } from "./auth";
 const publicPageRoutes = ["/reset"];
 
 const nodemailer = require("nodemailer");
-const user = "tauriq@thecapetownlocal.com";
-const pass = "srnmdprxqvmxelcy"; //"bqzcwqxznxlwuszy";
+
+const user = process.env.MAIL_USER;
+const pass = process.env.MAIL_PASS;
 
 const transport = nodemailer.createTransport({
   service: "Gmail",
@@ -53,7 +54,6 @@ export default withAuth(
       cors: {
         origin: [
           "http://localhost:3001",
-          "https://thecapetownlocal-fe.herokuapp.com",
           "https://thecapetownlocalfe-production.up.railway.app",
           "https://www.thecapetownlocal.com",
         ],
@@ -84,7 +84,7 @@ export default withAuth(
                  <p><strong>Address:</strong> ${req.body.address}</p>
                  <p><strong>Message:</strong> ${req.body.message}</p>`,
               })
-              .catch((err) => console.log("nodem", err));
+              .catch((err) => console.log("err", err));
             res.json({ message: "success" });
           } catch (err) {
             res.send(err);
