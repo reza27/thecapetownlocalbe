@@ -11,7 +11,7 @@ const transport = createTransport({
   },
 });
 
-function makeANiceEmail(text: string) {
+function sendEmail(text: string) {
   return `
     <div className="email" style="
       border: 1px solid black;
@@ -51,10 +51,10 @@ export async function sendPasswordResetEmail(
     to,
     from: "info@thecapetownlocal.com",
     subject: "Your password reset token!",
-    html: makeANiceEmail(`Your Password Reset Token is here!
+    html: sendEmail(`Your Password Reset Token is here!
       <a href="${
         process.env.NODE_ENV === "production"
-          ? process.env.PROD_URL
+          ? process.env.PROD_URL + "/reset?token=${resetToken}"
           : "http://localhost:3000/reset?token=${resetToken}"
       }">Click Here to reset</a>
     `),
