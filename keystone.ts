@@ -55,6 +55,7 @@ export default withAuth(
         origin: [
           "http://localhost:3001",
           "https://thecapetownlocalfe-production.up.railway.app",
+          "https://stage.thecapetownlocal.com",
           "https://www.thecapetownlocal.com",
         ],
         credentials: true,
@@ -73,7 +74,7 @@ export default withAuth(
               .sendMail({
                 from: req.body.email,
                 replyTo: req.body.email,
-                to: "tauriq@thecapetownlocal.com",
+                to: `${process.env.TO_MAIL}`,
                 subject: `Customer request: ${req.body.subject}`,
                 html: `<p><strong>Name:</strong> ${req.body.name}</>
                  <p><strong>Email:</strong> ${req.body.email}</p>
