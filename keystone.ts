@@ -79,8 +79,9 @@ export default withAuth(
                 html: `<p><strong>Name:</strong> ${req.body.name}</>
                  <p><strong>Email:</strong> ${req.body.email}</p>
                  <p><strong>Date:</strong> ${req.body.date}</p>
-                 <p><strong>Transport needed:</strong> ${req.body.transportNeeded}</p>
-                 <p><strong>Is date flexible:</strong> ${req.body.isDateFlexible}</p>
+                 <p><strong>Transport needed:</strong> ${req.body.isTransportNeeded}</p>
+                 <p><strong>Is date flexible:</strong> ${req.body.isFlexibleDate}</p>
+                 <p><strong>Number of people:</strong> ${req.body.numberOfPeople}</p>
                  <p><strong>Phone:</strong> ${req.body.phone}</p>
                  <p><strong>Address:</strong> ${req.body.address}</p>
                  <p><strong>Message:</strong> ${req.body.message}</p>`,
