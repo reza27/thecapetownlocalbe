@@ -25,7 +25,6 @@ const transport = nodemailer.createTransport({
 });
 import bodyParser from "body-parser";
 import jsPDF from "jspdf";
-const PDFDocument = require("pdfkit");
 import fs from "fs";
 import path from "path";
 
