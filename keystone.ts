@@ -7,6 +7,7 @@ import { lists } from "./schema";
 
 // Keystone auth is configured separately - check out the basic auth setup we are importing from our auth file.
 import { withAuth, session } from "./auth";
+const cloudinary = require("cloudinary").v2;
 
 const publicPageRoutes = ["/reset"];
 
@@ -23,6 +24,19 @@ const transport = nodemailer.createTransport({
   },
 });
 import bodyParser from "body-parser";
+import jsPDF from "jspdf";
+const PDFDocument = require("pdfkit");
+import fs from "fs";
+import path from "path";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  folder: process.env.CLOUDINARY_API_FOLDER,
+});
+
+console.log("cloudinary.config", cloudinary.config());
 
 export default withAuth(
   // Using the config function helps typescript guide you to the available options.
@@ -89,6 +103,43 @@ export default withAuth(
               .catch((err) => console.log("err", err));
             res.json({ message: "success" });
           } catch (err) {
+            res.send(err);
+          }
+        });
+        app.post("/api/indemnity", async (req, res) => {
+          try {
+            let fs = require("fs");
+
+            let doc = new jsPDF();
+            doc.text("Hello " + req.body.firstName, 10, 10);
+            let data = doc.output();
+            let pdfPath =
+              `${
+                process.env.NODE_ENV === "production"
+                  ? process.env.RAILWAY_VOLUME_MOUNT_PATH
+                  : ""
+              }` +
+              "./pdf/" +
+              req.body.firstName +
+              "_document.pdf";
+
+            fs.writeFileSync(pdfPath, data, "binary");
+
+            cloudinary.uploader
+              .upload(pdfPath, {
+                folder: process.env.CLOUDINARY_API_FOLDER,
+                use_filename: true,
+              })
+              .then((result: any) => {
+                console.log("pdf upload > " + result.url);
+                res.json({
+                  message: "indemnity success " + `${req.body.firstName}`,
+                  result: result.url,
+                });
+              });
+          } catch (err) {
+            console.log("pdf upload error > " + err);
+
             res.send(err);
           }
         });
