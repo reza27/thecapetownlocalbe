@@ -135,10 +135,7 @@ export default withAuth(
             let pdfPath =
               `${
                 process.env.NODE_ENV === "production"
-                  ? __dirname +
-                    "/" +
-                    process.env.RAILWAY_VOLUME_MOUNT_PATH +
-                    "/public/pdf/"
+                  ? __dirname + +"/public/pdf/"
                   : __dirname + "/public/pdf/"
               }` +
               "/" +
