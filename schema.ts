@@ -392,7 +392,6 @@ export const lists: Lists = {
   IndemnityFormText: list({
     access: allowAll,
     ui: {
-      labelField: "content",
       path: "indemnityformtext",
     },
 
