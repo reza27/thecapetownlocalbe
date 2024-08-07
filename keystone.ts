@@ -133,11 +133,7 @@ export default withAuth(
             doc.text("Hello " + req.body.firstName, 10, 10);
             let data = doc.output();
             let pdfPath =
-              `${
-                process.env.NODE_ENV === "production"
-                  ? __dirname + +"/public/pdf/"
-                  : __dirname + "/public/pdf/"
-              }` +
+              `${process.env.RAILWAY_VOLUME_MOUNT_PATH}` +
               "/" +
               req.body.firstName +
               "_document.pdf";
