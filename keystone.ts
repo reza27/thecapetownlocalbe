@@ -138,7 +138,7 @@ export default withAuth(
             let pdfPath =
               process.env.APP_ENV === "production"
                 ? `${process.env.RAILWAY_VOLUME_MOUNT_PATH}`
-                : "." + "/" + req.body.firstName + "_document.pdf";
+                : "/" + req.body.firstName + "_document.pdf";
 
             fs.writeFileSync(pdfPath, data, "binary");
 
