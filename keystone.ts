@@ -136,9 +136,10 @@ export default withAuth(
             doc.text("Mobile: " + req.body.firstName, 10, 90);
             let data = doc.output();
             let pdfPath =
-              process.env.APP_ENV === "production"
-                ? `${process.env.RAILWAY_VOLUME_MOUNT_PATH}`
-                : "/" + req.body.firstName + "_document.pdf";
+              `${process.env.RAILWAY_VOLUME_MOUNT_PATH}` +
+              "/" +
+              req.body.firstName +
+              "_document.pdf";
 
             fs.writeFileSync(pdfPath, data, "binary");
 
