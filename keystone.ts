@@ -26,12 +26,11 @@ const transport = nodemailer.createTransport({
 import bodyParser from "body-parser";
 import jsPDF from "jspdf";
 import fs from "fs";
-import path from "path";
 import fetch from "cross-fetch";
-
 import moment from "moment";
 
-import { ApolloClient, HttpLink, InMemoryCache, gql } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { createIndemnity } from "./lib/mutations/createIndemnity";
 
 const endpoint =
   process.env.APP_ENV === "production"
@@ -131,16 +130,15 @@ export default withAuth(
             //create pdf
             let doc = new jsPDF();
             doc.text("Client Details: ", 10, 10);
-            doc.text("First Name: " + req.body.firstName, 10, 10);
-            doc.text("Last Name: " + req.body.lastName, 10, 10);
-            doc.text("Email: " + req.body.firstName, 10, 10);
-            doc.text("Mobile: " + req.body.firstName, 10, 10);
+            doc.text("First Name: " + req.body.firstName, 10, 30);
+            doc.text("Last Name: " + req.body.lastName, 10, 50);
+            doc.text("Email: " + req.body.firstName, 10, 70);
+            doc.text("Mobile: " + req.body.firstName, 10, 90);
             let data = doc.output();
             let pdfPath =
-              `${process.env.RAILWAY_VOLUME_MOUNT_PATH}` +
-              "/" +
-              req.body.firstName +
-              "_document.pdf";
+              process.env.APP_ENV === "production"
+                ? `${process.env.RAILWAY_VOLUME_MOUNT_PATH}`
+                : "." + "/" + req.body.firstName + "_document.pdf";
 
             fs.writeFileSync(pdfPath, data, "binary");
 
@@ -152,17 +150,7 @@ export default withAuth(
               .then(async (result: any) => {
                 client
                   .mutate({
-                    mutation: gql`
-                      mutation CREATE_INDEMNITY($data: IndemnityCreateInput!) {
-                        createIndemnity(data: $data) {
-                          id
-                          firstName
-                          lastName
-                          indemnityPdfUrl
-                          date
-                        }
-                      }
-                    `,
+                    mutation: createIndemnity(),
                     variables: {
                       data: {
                         firstName: req.body.firstName,
@@ -200,7 +188,6 @@ export default withAuth(
         // This store is used for the image field type
         type: "image",
         // The URL that is returned in the Keystone GraphQL API
-        //generateUrl: path => process.env.NODE_ENV==='production'?`/images${path}`:`${process.env.ASSET_BASE_URL}/images${path}`,
         generateUrl: (path) =>
           `${
             process.env.NODE_ENV === "production"
