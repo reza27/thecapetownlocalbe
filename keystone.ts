@@ -27,6 +27,29 @@ import bodyParser from "body-parser";
 import jsPDF from "jspdf";
 import fs from "fs";
 import path from "path";
+import fetch from "cross-fetch";
+
+import moment from "moment";
+
+import { ApolloClient, HttpLink, InMemoryCache, gql } from "@apollo/client";
+
+const endpoint =
+  process.env.APP_ENV === "production"
+    ? `${process.env.PROD_URL}/api/graphql`
+    : `${process.env.LOCAL_URL}/api/graphql`;
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: endpoint,
+    fetch,
+  }),
+  defaultOptions: {
+    query: {
+      fetchPolicy: "no-cache",
+    },
+  },
+});
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -34,8 +57,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
   folder: process.env.CLOUDINARY_API_FOLDER,
 });
-
-console.log("cloudinary.config", cloudinary.config());
 
 export default withAuth(
   // Using the config function helps typescript guide you to the available options.
@@ -107,8 +128,7 @@ export default withAuth(
         });
         app.post("/api/indemnity", async (req, res) => {
           try {
-            let fs = require("fs");
-
+            //create pdf
             let doc = new jsPDF();
             doc.text("Hello " + req.body.firstName, 10, 10);
             let data = doc.output();
@@ -118,7 +138,7 @@ export default withAuth(
                   ? process.env.RAILWAY_VOLUME_MOUNT_PATH
                   : ""
               }` +
-              "./pdf/" +
+              "./public/pdf/" +
               req.body.firstName +
               "_document.pdf";
 
@@ -129,11 +149,39 @@ export default withAuth(
                 folder: process.env.CLOUDINARY_API_FOLDER,
                 use_filename: true,
               })
-              .then((result: any) => {
-                console.log("pdf upload > " + result.url);
+              .then(async (result: any) => {
+                client
+                  .mutate({
+                    mutation: gql`
+                      mutation CREATE_INDEMNITY($data: IndemnityCreateInput!) {
+                        createIndemnity(data: $data) {
+                          id
+                          firstName
+                          lastName
+                          indemnityPdfUrl
+                          date
+                        }
+                      }
+                    `,
+                    variables: {
+                      data: {
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        indemnityPdfUrl: result.url,
+                        date: moment().format(),
+                      },
+                    },
+                  })
+                  .then((result) => {
+                    console.log("res > ", result);
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+
                 res.json({
-                  message: "indemnity success " + `${req.body.firstName}`,
-                  result: result.url,
+                  message: "indemnity success",
+                  isSuccess: true,
                 });
               });
           } catch (err) {

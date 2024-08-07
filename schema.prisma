@@ -115,3 +115,16 @@ model Faq {
   answer            String     @default("")
   from_Activity_faq Activity[] @relation("Activity_faq")
 }
+
+model IndemnityFormText {
+  id      Int  @id
+  content Json @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+}
+
+model Indemnity {
+  id              String   @id @default(uuid()) @postgresql.Uuid
+  firstName       String   @default("")
+  lastName        String   @default("")
+  indemnityPdfUrl String   @default("")
+  date            DateTime @default("1970-01-01T00:00:00.000Z") @map("datetimestamp")
+}
