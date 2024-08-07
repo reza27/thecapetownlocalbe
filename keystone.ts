@@ -7,6 +7,7 @@ import { lists } from "./schema";
 
 // Keystone auth is configured separately - check out the basic auth setup we are importing from our auth file.
 import { withAuth, session } from "./auth";
+const cloudinary = require("cloudinary").v2;
 
 const publicPageRoutes = ["/reset"];
 
@@ -23,6 +24,39 @@ const transport = nodemailer.createTransport({
   },
 });
 import bodyParser from "body-parser";
+import jsPDF from "jspdf";
+import fs from "fs";
+import path from "path";
+import fetch from "cross-fetch";
+
+import moment from "moment";
+
+import { ApolloClient, HttpLink, InMemoryCache, gql } from "@apollo/client";
+
+const endpoint =
+  process.env.APP_ENV === "production"
+    ? `${process.env.PROD_URL}/api/graphql`
+    : `${process.env.LOCAL_URL}/api/graphql`;
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: endpoint,
+    fetch,
+  }),
+  defaultOptions: {
+    query: {
+      fetchPolicy: "no-cache",
+    },
+  },
+});
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  folder: process.env.CLOUDINARY_API_FOLDER,
+});
 
 export default withAuth(
   // Using the config function helps typescript guide you to the available options.
@@ -89,6 +123,70 @@ export default withAuth(
               .catch((err) => console.log("err", err));
             res.json({ message: "success" });
           } catch (err) {
+            res.send(err);
+          }
+        });
+        app.post("/api/indemnity", async (req, res) => {
+          try {
+            //create pdf
+            let doc = new jsPDF();
+            doc.text("Hello " + req.body.firstName, 10, 10);
+            let data = doc.output();
+            let pdfPath =
+              `${
+                process.env.NODE_ENV === "production"
+                  ? process.env.RAILWAY_VOLUME_MOUNT_PATH
+                  : ""
+              }` +
+              "./public/pdf/" +
+              req.body.firstName +
+              "_document.pdf";
+
+            fs.writeFileSync(pdfPath, data, "binary");
+
+            cloudinary.uploader
+              .upload(pdfPath, {
+                folder: process.env.CLOUDINARY_API_FOLDER,
+                use_filename: true,
+              })
+              .then(async (result: any) => {
+                client
+                  .mutate({
+                    mutation: gql`
+                      mutation CREATE_INDEMNITY($data: IndemnityCreateInput!) {
+                        createIndemnity(data: $data) {
+                          id
+                          firstName
+                          lastName
+                          indemnityPdfUrl
+                          date
+                        }
+                      }
+                    `,
+                    variables: {
+                      data: {
+                        firstName: req.body.firstName,
+                        lastName: req.body.lastName,
+                        indemnityPdfUrl: result.url,
+                        date: moment().format(),
+                      },
+                    },
+                  })
+                  .then((result) => {
+                    console.log("res > ", result);
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+
+                res.json({
+                  message: "indemnity success",
+                  isSuccess: true,
+                });
+              });
+          } catch (err) {
+            console.log("pdf upload error > " + err);
+
             res.send(err);
           }
         });

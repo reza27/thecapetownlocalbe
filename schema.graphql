@@ -847,6 +847,104 @@ input FaqCreateInput {
   answer: String
 }
 
+type IndemnityFormText {
+  id: ID!
+  content: IndemnityFormText_content_Document
+}
+
+type IndemnityFormText_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input IndemnityFormTextWhereUniqueInput {
+  id: ID
+}
+
+input IndemnityFormTextWhereInput {
+  AND: [IndemnityFormTextWhereInput!]
+  OR: [IndemnityFormTextWhereInput!]
+  NOT: [IndemnityFormTextWhereInput!]
+  id: IDFilter
+}
+
+input IndemnityFormTextOrderByInput {
+  id: OrderDirection
+}
+
+input IndemnityFormTextUpdateInput {
+  content: JSON
+}
+
+input IndemnityFormTextUpdateArgs {
+  where: IndemnityFormTextWhereUniqueInput! = {id: 1}
+  data: IndemnityFormTextUpdateInput!
+}
+
+input IndemnityFormTextCreateInput {
+  content: JSON
+}
+
+type Indemnity {
+  id: ID!
+  firstName: String
+  lastName: String
+  indemnityPdfUrl: String
+  date: DateTime
+}
+
+input IndemnityWhereUniqueInput {
+  id: ID
+}
+
+input IndemnityWhereInput {
+  AND: [IndemnityWhereInput!]
+  OR: [IndemnityWhereInput!]
+  NOT: [IndemnityWhereInput!]
+  id: IDFilter
+  firstName: StringFilter
+  lastName: StringFilter
+  indemnityPdfUrl: StringFilter
+  date: DateTimeFilter
+}
+
+input DateTimeFilter {
+  equals: DateTime
+  in: [DateTime!]
+  notIn: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  gt: DateTime
+  gte: DateTime
+  not: DateTimeFilter
+}
+
+input IndemnityOrderByInput {
+  id: OrderDirection
+  firstName: OrderDirection
+  lastName: OrderDirection
+  indemnityPdfUrl: OrderDirection
+  date: OrderDirection
+}
+
+input IndemnityUpdateInput {
+  firstName: String
+  lastName: String
+  indemnityPdfUrl: String
+  date: DateTime
+}
+
+input IndemnityUpdateArgs {
+  where: IndemnityWhereUniqueInput!
+  data: IndemnityUpdateInput!
+}
+
+input IndemnityCreateInput {
+  firstName: String
+  lastName: String
+  indemnityPdfUrl: String
+  date: DateTime
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -925,6 +1023,18 @@ type Mutation {
   updateFaqs(data: [FaqUpdateArgs!]!): [Faq]
   deleteFaq(where: FaqWhereUniqueInput!): Faq
   deleteFaqs(where: [FaqWhereUniqueInput!]!): [Faq]
+  createIndemnityFormText(data: IndemnityFormTextCreateInput!): IndemnityFormText
+  createIndemnityFormTexts(data: [IndemnityFormTextCreateInput!]!): [IndemnityFormText]
+  updateIndemnityFormText(where: IndemnityFormTextWhereUniqueInput! = {id: 1}, data: IndemnityFormTextUpdateInput!): IndemnityFormText
+  updateIndemnityFormTexts(data: [IndemnityFormTextUpdateArgs!]!): [IndemnityFormText]
+  deleteIndemnityFormText(where: IndemnityFormTextWhereUniqueInput! = {id: 1}): IndemnityFormText
+  deleteIndemnityFormTexts(where: [IndemnityFormTextWhereUniqueInput!]!): [IndemnityFormText]
+  createIndemnity(data: IndemnityCreateInput!): Indemnity
+  createIndemnities(data: [IndemnityCreateInput!]!): [Indemnity]
+  updateIndemnity(where: IndemnityWhereUniqueInput!, data: IndemnityUpdateInput!): Indemnity
+  updateIndemnities(data: [IndemnityUpdateArgs!]!): [Indemnity]
+  deleteIndemnity(where: IndemnityWhereUniqueInput!): Indemnity
+  deleteIndemnities(where: [IndemnityWhereUniqueInput!]!): [Indemnity]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -997,6 +1107,12 @@ type Query {
   faqs(where: FaqWhereInput! = {}, orderBy: [FaqOrderByInput!]! = [], take: Int, skip: Int! = 0): [Faq!]
   faq(where: FaqWhereUniqueInput!): Faq
   faqsCount(where: FaqWhereInput! = {}): Int
+  indemnityFormTexts(where: IndemnityFormTextWhereInput! = {id: {equals: 1}}, orderBy: [IndemnityFormTextOrderByInput!]! = [], take: Int, skip: Int! = 0): [IndemnityFormText!]
+  indemnityFormText(where: IndemnityFormTextWhereUniqueInput! = {id: 1}): IndemnityFormText
+  indemnityFormTextsCount(where: IndemnityFormTextWhereInput! = {id: {equals: 1}}): Int
+  indemnities(where: IndemnityWhereInput! = {}, orderBy: [IndemnityOrderByInput!]! = [], take: Int, skip: Int! = 0): [Indemnity!]
+  indemnity(where: IndemnityWhereUniqueInput!): Indemnity
+  indemnitiesCount(where: IndemnityWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
   validateUserPasswordResetToken(email: String!, token: String!): ValidateUserPasswordResetTokenResult

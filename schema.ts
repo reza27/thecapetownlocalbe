@@ -2,8 +2,6 @@ require("dotenv").config();
 
 import { allowAll } from "@keystone-6/core/access";
 
-import { allowAll } from "@keystone-6/core/access";
-
 import { list } from "@keystone-6/core";
 // We're using some common fields in the starter. Check out https://keystonejs.com/docs/apis/fields#fields-api
 // for the full list of fields.
@@ -15,6 +13,7 @@ import {
   select,
   image,
   integer,
+  calendarDay,
 } from "@keystone-6/core/fields";
 // The document field is a more complicated field, so it's in its own package
 // Keystone aims to have all the base field types, but you can make your own
@@ -387,6 +386,58 @@ export const lists: Lists = {
         validation: {
           isRequired: true,
         },
+      }),
+    },
+  }),
+  IndemnityFormText: list({
+    access: allowAll,
+    ui: {
+      labelField: "content",
+      path: "indemnityformtext",
+    },
+
+    fields: {
+      content: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
+      }),
+    },
+    isSingleton: true,
+  }),
+  Indemnity: list({
+    access: allowAll,
+    ui: {
+      labelField: "firstName",
+    },
+
+    fields: {
+      firstName: text({
+        validation: {
+          isRequired: true,
+        },
+      }),
+      lastName: text({
+        validation: {
+          isRequired: true,
+        },
+      }),
+      indemnityPdfUrl: text({
+        validation: {
+          isRequired: true,
+        },
+      }),
+      date: timestamp({
+        defaultValue: "1970-01-01T00:00:00.000Z",
+        db: { map: "datetimestamp" },
+        validation: { isRequired: true },
       }),
     },
   }),

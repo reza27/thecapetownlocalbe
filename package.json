@@ -12,17 +12,27 @@
   },
   "// @aws-sdk": "temporary dependency until https://github.com/keystonejs/keystone/issues/8023 is resolved",
   "dependencies": {
+    "@apollo/client": "^3.11.3",
     "@aws-sdk/util-endpoints": "^3.192.0",
     "@keystone-6/auth": "^6.0.0",
     "@keystone-6/cloudinary": "^6.0.0",
     "@keystone-6/core": "^4.0.1",
     "@keystone-6/fields-document": "^6.0.0",
+    "cloudinary": "^2.4.0",
+    "cross-fetch": "^4.0.0",
     "dotenv": "^16.0.3",
+    "graphql": "^16.9.0",
+    "jspdf": "^2.5.1",
+    "moment": "^2.30.1",
+    "node-fetch": "^2.7.0",
     "nodemailer": "^6.8.0",
-    "typescript": "^4.8.0"
+    "typescript": "^4.8.0",
+    "urql": "^4.1.0"
   },
   "devDependencies": {
-    "body-parser": "^1.20.1"
+    "@types/node-fetch": "^2.6.11",
+    "body-parser": "^1.20.2",
+    "esinstall": "^1.1.7"
   },
   "overrides": {
     "next": "13.4.12"
