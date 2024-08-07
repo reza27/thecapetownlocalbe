@@ -130,7 +130,11 @@ export default withAuth(
           try {
             //create pdf
             let doc = new jsPDF();
-            doc.text("Hello " + req.body.firstName, 10, 10);
+            doc.text("Client Details: ", 10, 10);
+            doc.text("First Name: " + req.body.firstName, 10, 10);
+            doc.text("Last Name: " + req.body.lastName, 10, 10);
+            doc.text("Email: " + req.body.firstName, 10, 10);
+            doc.text("Mobile: " + req.body.firstName, 10, 10);
             let data = doc.output();
             let pdfPath =
               `${process.env.RAILWAY_VOLUME_MOUNT_PATH}` +
