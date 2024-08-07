@@ -138,7 +138,7 @@ export default withAuth(
                   ? process.env.RAILWAY_VOLUME_MOUNT_PATH
                   : ""
               }` +
-              "./public/pdf/" +
+              "/public/pdf/" +
               req.body.firstName +
               "_document.pdf";
 
