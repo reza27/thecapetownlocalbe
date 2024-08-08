@@ -1,5 +1,5 @@
 import moment from "moment";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
 
 export const createPdf = async (req: any, html: string) => {
   const htmlLayout =
