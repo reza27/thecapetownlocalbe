@@ -128,7 +128,6 @@ export default withAuth(
                 const serializedToHtml = slateToHtml(
                   result.data.indemnityFormText?.content?.document
                 );
-                console.log("serializedToHtml", serializedToHtml);
                 createPdf(req, serializedToHtml).then((result) => {
                   uploadPdf(result, req).then(() => {
                     res.json({
