@@ -7,6 +7,7 @@ import { lists } from "./schema";
 
 // Keystone auth is configured separately - check out the basic auth setup we are importing from our auth file.
 import { withAuth, session } from "./auth";
+const cloudinary = require("cloudinary").v2;
 
 const publicPageRoutes = ["/reset"];
 
@@ -127,7 +128,7 @@ export default withAuth(
                 const serializedToHtml = slateToHtml(
                   result.data.indemnityFormText?.content?.document
                 );
-
+                console.log("serializedToHtml", serializedToHtml);
                 createPdf(req, serializedToHtml).then((result) => {
                   uploadPdf(result, req).then(() => {
                     res.json({
