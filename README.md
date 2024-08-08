@@ -1,4 +1,4 @@
-# Keystone Project Starter
+# Keystone Project
 
 Welcome to Keystone!
 
