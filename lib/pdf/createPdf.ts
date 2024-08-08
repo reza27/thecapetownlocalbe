@@ -26,10 +26,6 @@ export const createPdf = async (req: any, html: string) => {
     "</strong></p>";
   ("</div>");
 
-  // const browser = await puppeteer.launch({
-  //   headless: true,
-  // });
-
   const browser = await puppeteer.connect({
     browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
   });
@@ -45,11 +41,6 @@ export const createPdf = async (req: any, html: string) => {
         req.body.firstName +
         "_document.pdf"
       : "./pdf/" + req.body.firstName + "_document.pdf";
-  // let pdfPath =
-  //   `${process.env.RAILWAY_VOLUME_MOUNT_PATH}` +
-  //   req.body.firstName +
-  //   "_document.pdf";
-  //let pdfPath = "./pdf/" + req.body.firstName + "_document.pdf";
 
   const pdf = await page.pdf({
     format: "A4",
