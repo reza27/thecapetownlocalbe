@@ -7,22 +7,9 @@ import { lists } from "./schema";
 
 // Keystone auth is configured separately - check out the basic auth setup we are importing from our auth file.
 import { withAuth, session } from "./auth";
-const cloudinary = require("cloudinary").v2;
 
 const publicPageRoutes = ["/reset"];
 
-const nodemailer = require("nodemailer");
-
-const user = process.env.MAIL_USER;
-const pass = process.env.MAIL_PASS;
-
-const transport = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: user,
-    pass: pass,
-  },
-});
 import bodyParser from "body-parser";
 import fetch from "cross-fetch";
 
@@ -31,6 +18,10 @@ import { createPdf } from "./lib/pdf/createPdf";
 import { getIndemnityText } from "./lib/queries/getIndemnityText";
 import { slateToHtml } from "@slate-serializers/html";
 import { uploadPdf } from "./lib/pdf/uploadPdf";
+import { sendMailWithPdf } from "./lib/pdf/sendPdf";
+import { ISendEmailPdfData } from "./lib/types/ISendEmailPdfData";
+import { ISendContactFormData } from "./lib/types/ISendContactFormData";
+import { sendContactForm } from "./lib/contact/sendContactFrom";
 
 const endpoint =
   process.env.APP_ENV === "production"
@@ -95,28 +86,20 @@ export default withAuth(
           })
         );
         app.post("/api/mail", async (req, res) => {
-          try {
-            transport
-              .sendMail({
-                from: req.body.email,
-                replyTo: req.body.email,
-                to: `${process.env.TO_MAIL}`,
-                subject: `Customer request: ${req.body.subject}`,
-                html: `<p><strong>Name:</strong> ${req.body.name}</>
-                 <p><strong>Email:</strong> ${req.body.email}</p>
-                 <p><strong>Date:</strong> ${req.body.date}</p>
-                 <p><strong>Transport needed:</strong> ${req.body.isTransportNeeded}</p>
-                 <p><strong>Is date flexible:</strong> ${req.body.isFlexibleDate}</p>
-                 <p><strong>Number of people:</strong> ${req.body.numberOfPeople}</p>
-                 <p><strong>Phone:</strong> ${req.body.phone}</p>
-                 <p><strong>Address:</strong> ${req.body.address}</p>
-                 <p><strong>Message:</strong> ${req.body.message}</p>`,
-              })
-              .catch((err) => console.log("err", err));
-            res.json({ message: "success" });
-          } catch (err) {
-            res.send(err);
-          }
+          const data: ISendContactFormData = {
+            email: req.body.email,
+            subject: `Customer request: ${req.body.subject}`,
+            name: req.body.name,
+            date: req.body.date,
+            isTransportNeeded: req.body.isTransportNeeded,
+            isFlexibleDate: req.body.isFlexibleDate,
+            numberOfPeople: req.body.numberOfPeople,
+            phone: req.body.phone,
+            address: req.body.address,
+            message: req.body.message,
+          };
+
+          sendContactForm(data, res);
         });
         app.post("/api/indemnity", (req, res) => {
           try {
@@ -124,16 +107,20 @@ export default withAuth(
               .query({
                 query: getIndemnityText(),
               })
-              .then((result) => {
+              .then(async (result) => {
                 const serializedToHtml = slateToHtml(
                   result.data.indemnityFormText?.content?.document
                 );
-                createPdf(req, serializedToHtml).then((result) => {
-                  uploadPdf(result, req).then(() => {
-                    res.json({
-                      message: "indemnity success",
-                      isSuccess: true,
-                    });
+                await createPdf(req, serializedToHtml).then((pdfPath) => {
+                  uploadPdf(pdfPath, req).then(() => {
+                    const data: ISendEmailPdfData = {
+                      toUserEmail: req.body.email,
+                      pdfPath: pdfPath,
+                      firstName: req.body.firstName,
+                      lastName: req.body.lastName,
+                    };
+
+                    sendMailWithPdf(data, res);
                   });
                 });
               })
