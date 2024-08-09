@@ -88,7 +88,7 @@ export default withAuth(
         app.post("/api/mail", async (req, res) => {
           const data: ISendContactFormData = {
             email: req.body.email,
-            subject: `Customer request: ${req.body.subject}`,
+            subject: req.body.subject,
             name: req.body.name,
             date: req.body.date,
             isTransportNeeded: req.body.isTransportNeeded,
