@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.6.11",
+    "@types/nodemailer": "^6.4.15",
     "body-parser": "^1.20.2",
     "esinstall": "^1.1.7"
   },
