@@ -70,7 +70,7 @@ export default withAuth(
     server: {
       cors: {
         origin: [
-          `${process.env.LOCAL_URL}`,
+          `${process.env.LOCAL_FE_URL}`,
           `${process.env.PROD_FE_URL}`,
           `${process.env.STAGE_FE_URL}`,
         ],
