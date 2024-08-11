@@ -23,8 +23,9 @@ export const createPdf = async (req: any, html: string) => {
     html +
     "<br/><p>Accepted the terms above on the <strong>" +
     moment().format("YYYY-MM-DD HH:mm:ss") +
-    "</strong></p>";
-  ("</div>");
+    "</strong></p><img src='" +
+    req.body.signature +
+    "'><p>Signature</p></div>";
 
   const browser = await puppeteer.connect({
     browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
