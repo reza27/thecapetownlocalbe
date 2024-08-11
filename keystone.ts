@@ -70,10 +70,9 @@ export default withAuth(
     server: {
       cors: {
         origin: [
-          "http://localhost:3001",
-          "https://thecapetownlocalfe-production.up.railway.app",
-          "https://stage.thecapetownlocal.com",
-          "https://www.thecapetownlocal.com",
+          `${process.env.LOCAL_URL}`,
+          `${process.env.PROD_FE_URL}`,
+          `${process.env.STAGE_FE_URL}`,
         ],
         credentials: true,
       },
