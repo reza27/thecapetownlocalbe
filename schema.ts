@@ -10,10 +10,7 @@ import {
   relationship,
   password,
   timestamp,
-  select,
-  image,
   integer,
-  calendarDay,
 } from "@keystone-6/core/fields";
 // The document field is a more complicated field, so it's in its own package
 // Keystone aims to have all the base field types, but you can make your own
@@ -27,6 +24,7 @@ import { cloudinaryImage } from "@keystone-6/cloudinary";
 // our types to a stricter subset that is type-aware of other lists in our schema
 // that Typescript cannot easily infer.
 import { Lists } from ".keystone/types";
+import { linkText } from "./schema/customfields/linktext";
 
 // We have a users list, a blogs list, and tags for blog posts, so they can be filtered.
 // Each property on the exported object will become the name of a list (a.k.a. the `listKey`),
@@ -428,11 +426,7 @@ export const lists: Lists = {
           isRequired: true,
         },
       }),
-      indemnityPdfUrl: text({
-        validation: {
-          isRequired: true,
-        },
-      }),
+      indemnityPdfUrl: linkText(),
       date: timestamp({
         defaultValue: "1970-01-01T00:00:00.000Z",
         db: { map: "datetimestamp" },

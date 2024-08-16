@@ -903,7 +903,6 @@ input IndemnityWhereInput {
   id: IDFilter
   firstName: StringFilter
   lastName: StringFilter
-  indemnityPdfUrl: StringFilter
   date: DateTimeFilter
 }
 
