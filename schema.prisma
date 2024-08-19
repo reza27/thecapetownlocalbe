@@ -112,7 +112,7 @@ model Guide {
 model Faq {
   id                String     @id @default(uuid()) @postgresql.Uuid
   question          String     @default("")
-  answer            String     @default("")
+  answer            Json       @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   from_Activity_faq Activity[] @relation("Activity_faq")
 }
 
