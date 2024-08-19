@@ -810,7 +810,11 @@ input GuideCreateInput {
 type Faq {
   id: ID!
   question: String
-  answer: String
+  answer: Faq_answer_Document
+}
+
+type Faq_answer_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input FaqWhereUniqueInput {
@@ -823,18 +827,16 @@ input FaqWhereInput {
   NOT: [FaqWhereInput!]
   id: IDFilter
   question: StringFilter
-  answer: StringFilter
 }
 
 input FaqOrderByInput {
   id: OrderDirection
   question: OrderDirection
-  answer: OrderDirection
 }
 
 input FaqUpdateInput {
   question: String
-  answer: String
+  answer: JSON
 }
 
 input FaqUpdateArgs {
@@ -844,7 +846,7 @@ input FaqUpdateArgs {
 
 input FaqCreateInput {
   question: String
-  answer: String
+  answer: JSON
 }
 
 type IndemnityFormText {

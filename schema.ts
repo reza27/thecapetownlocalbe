@@ -380,10 +380,17 @@ export const lists: Lists = {
           isRequired: true,
         },
       }),
-      answer: text({
-        validation: {
-          isRequired: true,
-        },
+      answer: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1],
+        ],
+        links: true,
+        dividers: true,
       }),
     },
   }),
